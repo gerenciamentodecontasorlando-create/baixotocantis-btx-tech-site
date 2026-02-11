@@ -1,26 +1,28 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>BTX TECH • Educação Médica (Beta)</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>BTX TECH • Plataforma de Educação Médica</title>
   <style>
     :root{
-      --bg: #0b1220;
-      --bg2:#0f1a2e;
-      --card: rgba(255,255,255,.08);
-      --card2: rgba(255,255,255,.06);
-      --line: rgba(255,255,255,.14);
-      --ink: #eaf0ff;
-      --muted: rgba(234,240,255,.72);
-      --soft: rgba(234,240,255,.18);
-      --accent: #4f8cff;
-      --accent2:#00d1ff;
-      --good:#33d17a;
-      --bad:#ff5a6f;
-      --warn:#ffd166;
-      --shadow: 0 22px 60px rgba(0,0,0,.35);
-      --r: 18px;
+      --bg:#f4f8ff;
+      --bg2:#eef6ff;
+      --card:#ffffff;
+      --ink:#0b1220;
+      --muted:#4b5563;
+      --line:#dbe7ff;
+
+      --sky:#22c3ff;        /* azul celeste */
+      --sky2:#2a7fff;       /* azul mais forte */
+      --skySoft:#e6f8ff;    /* fundo celeste */
+      --good:#16a34a;
+      --bad:#dc2626;
+      --warn:#f59e0b;
+
+      --shadow: 0 14px 40px rgba(11,18,32,.10);
+      --r:18px;
+      --r2:14px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,"Liberation Mono","Courier New", monospace;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans","Helvetica Neue";
     }
@@ -31,257 +33,257 @@
       font-family:var(--sans);
       color:var(--ink);
       background:
-        radial-gradient(900px 560px at 12% -8%, rgba(79,140,255,.22), transparent 58%),
-        radial-gradient(820px 520px at 110% 10%, rgba(0,209,255,.18), transparent 55%),
+        radial-gradient(900px 520px at 8% -10%, rgba(34,195,255,.24), transparent 55%),
+        radial-gradient(820px 520px at 110% 5%, rgba(42,127,255,.16), transparent 55%),
         linear-gradient(180deg, var(--bg), var(--bg2));
       overflow-x:hidden;
     }
     a{color:inherit}
-    .shell{min-height:100%;}
-
-    /* ====== Shared UI ====== */
-    .glass{
+    .container{max-width:1180px;margin:0 auto;padding: 18px 14px 60px;}
+    .card{
+      background: var(--card);
       border:1px solid var(--line);
-      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
-      box-shadow: var(--shadow);
       border-radius: var(--r);
-      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
     }
-    .btn{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.06);
-      color: var(--ink);
-      padding: 11px 12px;
-      border-radius: 14px;
-      font-weight: 800;
-      cursor:pointer;
-      transition: transform .06s ease, border-color .2s ease, background .2s ease;
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      user-select:none;
-    }
-    .btn:hover{border-color: rgba(79,140,255,.45); background: rgba(79,140,255,.10)}
-    .btn:active{transform: translateY(1px)}
-    .btn.primary{
-      border-color: rgba(0,209,255,.55);
-      background: linear-gradient(180deg, rgba(0,209,255,.20), rgba(79,140,255,.14));
-    }
-    .btn.ghost{background: transparent}
-    .pill{
-      display:inline-flex; align-items:center; gap:8px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.06);
-      color: var(--muted);
-      font-size: 12px;
-    }
-    .dot{width:9px;height:9px;border-radius: 99px;background: var(--accent)}
-    .dot.c2{background: var(--accent2)}
-    .dot.good{background: var(--good)}
-    .dot.bad{background: var(--bad)}
-    .kbd{
-      font-family: var(--mono);
-      font-size: 12px;
-      padding: 2px 7px;
-      border:1px solid var(--line);
-      border-radius: 10px;
-      background: rgba(0,0,0,.18);
-      color: var(--muted);
-    }
-    .muted{color: var(--muted)}
-    .tiny{font-size: 12px; color: var(--muted)}
-    .h1{font-size: 26px; margin:0}
-    .h2{font-size: 16px; margin:0}
-    .h3{font-size: 14px; margin:0}
-    .sep{height:1px;background: var(--line); margin: 12px 0}
-    .grid2{display:grid; grid-template-columns: 1.1fr .9fr; gap: 16px}
-    @media (max-width: 980px){ .grid2{grid-template-columns: 1fr} }
-
-    /* ====== Login / Landing ====== */
-    .landing{
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 26px 16px 50px;
-    }
-    .topbar{
-      display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
-      margin-bottom: 14px;
-    }
+    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
     .brand{
-      display:flex; align-items:center; gap:12px;
+      display:flex;align-items:center;gap:12px;
     }
     .logo{
       width:44px;height:44px;border-radius: 16px;
-      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), transparent 52%),
-                  linear-gradient(135deg, rgba(79,140,255,1), rgba(0,209,255,1));
-      box-shadow: 0 14px 40px rgba(0,0,0,.35);
-      border:1px solid rgba(255,255,255,.18);
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.9), transparent 55%),
+                  linear-gradient(135deg, var(--sky), var(--sky2));
+      border:1px solid rgba(11,18,32,.06);
+      box-shadow: 0 12px 30px rgba(11,18,32,.12);
     }
-    .hero{
-      padding: 18px;
-    }
-    .heroHead{
-      display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap;
-    }
-    .heroHeadLeft{
-      min-width: 280px;
-    }
-    .heroHeadRight{
-      display:flex; gap:8px; flex-wrap:wrap;
-      justify-content:flex-end;
-      max-width: 520px;
-    }
-    .story{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 12px;
-    }
-    @media (max-width: 920px){ .story{grid-template-columns: 1fr} }
-    .box{
-      padding: 14px;
-      border-radius: 16px;
+    .h1{margin:0;font-size: 22px;letter-spacing:.2px}
+    .h2{margin:0;font-size: 16px}
+    .h3{margin:0;font-size: 13px}
+    .muted{color:var(--muted)}
+    .tiny{font-size:12px;color:var(--muted)}
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.06);
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
     }
-    .box ul{margin:8px 0 0; padding-left: 16px; color: var(--muted); font-size: 13px}
-    .box p{margin:8px 0 0; color: var(--muted); font-size: 13px}
+    .dot{width:9px;height:9px;border-radius:99px;background:var(--sky)}
+    .dot.good{background:var(--good)}
+    .dot.bad{background:var(--bad)}
+    .kbd{
+      font-family:var(--mono);
+      font-size:12px;
+      padding: 2px 7px;
+      border-radius: 10px;
+      border:1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+    }
+
+    /* Buttons */
+    .btn{
+      border:1px solid rgba(34,195,255,.55);
+      background: linear-gradient(180deg, rgba(34,195,255,.18), rgba(42,127,255,.10));
+      color:#053049;
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-weight: 900;
+      cursor:pointer;
+      box-shadow: 0 10px 24px rgba(11,18,32,.08);
+      transition: transform .06s ease, filter .15s ease;
+      display:inline-flex;align-items:center;gap:10px;
+      user-select:none;
+    }
+    .btn:hover{filter: brightness(1.02)}
+    .btn:active{transform: translateY(1px)}
+    .btn.ghost{
+      border:1px solid var(--line);
+      background:#fff;
+      color: var(--muted);
+      box-shadow:none;
+    }
+
+    /* Landing */
+    header.card{padding: 14px 14px}
+    .hero.card{margin-top:12px;padding:14px}
+    .grid2{display:grid;grid-template-columns: 1.2fr .8fr;gap:12px;align-items:start}
+    @media (max-width: 980px){ .grid2{grid-template-columns:1fr} }
+
+    .box{
+      border:1px solid var(--line);
+      border-radius: var(--r2);
+      background: #fff;
+      padding: 12px;
+    }
+    .box ul{margin:8px 0 0; padding-left:16px; color: var(--muted); font-size:13px}
+    .box p{margin:8px 0 0; color: var(--muted); font-size:13px}
+
+    .sep{height:1px;background: var(--line); margin: 12px 0}
+
+    .loginRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+    .input{
+      flex:1 1 260px;
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--ink);
+      padding: 12px 12px;
+      border-radius: 14px;
+      outline:none;
+      font-weight: 900;
+      letter-spacing:.2px;
+    }
+    .hint{
+      border:1px dashed rgba(34,195,255,.55);
+      background: var(--skySoft);
+      border-radius: var(--r2);
+      padding: 10px 12px;
+      color:#053049;
+      font-size: 13px;
+      margin-top:10px;
+    }
+
+    /* Donut chart block */
     .chartWrap{
       display:grid;
-      grid-template-columns: 220px 1fr;
-      gap: 14px;
+      grid-template-columns: 210px 1fr;
+      gap: 12px;
       align-items:center;
-      margin-top: 12px;
+      margin-top: 10px;
     }
-    @media (max-width: 640px){ .chartWrap{grid-template-columns: 1fr} }
+    @media (max-width: 620px){ .chartWrap{grid-template-columns:1fr} }
     canvas{max-width:100%}
     .legend{
       display:grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px 12px;
+      gap: 8px 10px;
     }
-    @media (max-width: 560px){ .legend{grid-template-columns: 1fr} }
+    @media (max-width: 560px){ .legend{grid-template-columns:1fr} }
     .legItem{
-      display:flex; align-items:center; justify-content:space-between; gap: 10px;
-      padding: 8px 10px;
-      border-radius: 14px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.05);
+      border-radius: 14px;
+      background:#fff;
+      padding: 8px 10px;
       color: var(--muted);
       font-size: 12.5px;
     }
-    .sw{width:10px;height:10px;border-radius:3px; background: var(--accent)}
-    .loginRow{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
-      margin-top: 12px;
-    }
-    .input{
-      flex: 1 1 240px;
-      border:1px solid var(--line);
-      background: rgba(0,0,0,.18);
-      color: var(--ink);
-      padding: 12px 12px;
-      border-radius: 14px;
-      outline:none;
-      font-weight: 800;
-      letter-spacing: .3px;
-    }
-    .hint{
-      margin-top: 10px;
-      border:1px dashed rgba(0,209,255,.35);
-      background: rgba(0,209,255,.08);
-      border-radius: 16px;
-      padding: 12px;
-      color: rgba(234,240,255,.88);
-      font-size: 13px;
-    }
+    .sw{width:10px;height:10px;border-radius:3px}
 
-    /* ====== App / Private Area ====== */
-    .app{
-      display:none;
-      height: 100vh;
-      overflow:hidden;
-    }
+    /* App */
+    .app{display:none;height:100vh;overflow:hidden}
     .appTop{
       height: 62px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
       padding: 10px 12px;
       border-bottom:1px solid var(--line);
-      background: rgba(255,255,255,.06);
-      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,.75);
+      backdrop-filter: blur(10px);
     }
-    .appTop .left{display:flex; align-items:center; gap:10px}
-    .appTop .right{display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end}
+    .appTop .left{display:flex;align-items:center;gap:10px}
+    .appTop .right{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+
     .chip{
-      display:inline-flex; align-items:center; gap:8px;
+      display:inline-flex;align-items:center;gap:8px;
       padding: 7px 10px;
       border-radius: 999px;
       border:1px solid var(--line);
-      background: rgba(0,0,0,.18);
+      background:#fff;
       color: var(--muted);
       font-size: 12px;
     }
+
     .layout{
       display:grid;
-      grid-template-columns: 280px 1fr;
+      grid-template-columns: 310px 1fr;
       height: calc(100vh - 62px);
       overflow:hidden;
     }
     @media (max-width: 980px){
       .layout{grid-template-columns: 1fr}
       .sidebar{display:none}
-      .layout.mobile .sidebar{display:block; position:absolute; z-index:5; top:62px; left:10px; right:10px; height: calc(100vh - 74px)}
+      .layout.mobile .sidebar{
+        display:block;
+        position:absolute;
+        z-index:6;
+        top: 70px;
+        left: 10px;
+        right: 10px;
+        height: calc(100vh - 90px);
+      }
     }
+
     .sidebar{
       padding: 12px;
       overflow:auto;
       border-right:1px solid var(--line);
-      background: rgba(255,255,255,.05);
+      background: rgba(255,255,255,.55);
+      backdrop-filter: blur(10px);
     }
-    .content{
+    .main{
       padding: 12px;
       overflow:auto;
     }
-    .navGroup{margin-bottom: 10px}
-    .navTitle{
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      padding: 10px 10px;
+
+    .panel{
       border:1px solid var(--line);
-      background: rgba(0,0,0,.12);
+      background:#fff;
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      padding: 12px;
+    }
+
+    .search{
+      display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .search input{
+      width:100%;
+      border:1px solid var(--line);
       border-radius: 14px;
+      padding: 11px 12px;
+      outline:none;
+      background:#fff;
+      color:var(--ink);
+      font-weight:800;
+    }
+
+    /* Accordion groups */
+    .group{margin-top:10px}
+    .groupTitle{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding: 10px 10px;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(34,195,255,.10), rgba(42,127,255,.06));
       cursor:pointer;
       user-select:none;
-      font-weight: 900;
-      font-size: 13px;
+      font-weight: 950;
+      color:#053049;
     }
-    .navList{
-      margin-top: 8px;
-      display:grid;
-      gap: 8px;
-    }
-    .navItem{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.05);
-      border-radius: 14px;
+    .groupBody{display:none;margin-top:8px;gap:8px}
+    .groupBody.open{display:grid}
+    .topicBtn{
       padding: 10px 10px;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background:#fff;
       cursor:pointer;
       color: var(--muted);
-      font-size: 13px;
-      transition: border-color .2s ease, background .2s ease;
+      font-weight: 900;
+      transition: border-color .15s ease, background .15s ease;
     }
-    .navItem:hover{border-color: rgba(79,140,255,.45); background: rgba(79,140,255,.10)}
-    .navItem.active{border-color: rgba(0,209,255,.55); background: rgba(0,209,255,.10); color: rgba(234,240,255,.92)}
-    .panel{
-      padding: 14px;
-      border-radius: 18px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.06);
+    .topicBtn:hover{border-color: rgba(34,195,255,.65); background: var(--skySoft)}
+    .topicBtn.active{
+      border-color: rgba(34,195,255,.85);
+      background: var(--skySoft);
+      color:#053049;
     }
+
+    /* Private content layout */
     .twoPane{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -289,101 +291,87 @@
       align-items:start;
       margin-top: 12px;
     }
-    @media (max-width: 980px){ .twoPane{grid-template-columns: 1fr} }
+    @media (max-width: 980px){ .twoPane{grid-template-columns:1fr} }
+
     .paneHeader{
-      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
-      margin-bottom: 10px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+      margin-bottom:10px;
     }
     .toc{
       border:1px solid var(--line);
-      border-radius: 16px;
-      background: rgba(0,0,0,.14);
+      border-radius: 14px;
       padding: 10px;
-      margin-bottom: 12px;
+      background: #fff;
+      margin-bottom: 10px;
     }
-    .toc .tocTitle{font-weight:900; font-size: 12.5px; color: rgba(234,240,255,.9); display:flex; align-items:center; gap:8px}
-    .toc ul{margin:10px 0 0; padding-left: 16px; color: var(--muted); font-size: 13px}
+    .tocTitle{
+      font-weight: 950;
+      font-size: 12.5px;
+      display:flex;align-items:center;gap:8px;
+      color:#053049;
+    }
+    .toc ul{margin:10px 0 0; padding-left:16px; color: var(--muted); font-size: 13px}
+
     .sec{
       border:1px solid var(--line);
-      border-radius: 16px;
-      background: rgba(255,255,255,.05);
+      border-radius: 14px;
       padding: 12px;
+      background:#fff;
       margin-bottom: 10px;
     }
     .sec p{margin:8px 0 0; color: var(--muted); font-size: 13.5px}
+
+    /* Question cards */
     .qCard{
       border:1px solid var(--line);
-      border-radius: 16px;
-      background: rgba(255,255,255,.05);
+      border-radius: 14px;
       padding: 12px;
+      background:#fff;
       margin-bottom: 10px;
     }
-    .qMeta{display:flex; gap:8px; flex-wrap:wrap; align-items:center; justify-content:space-between}
-    .qTitle{margin: 8px 0 0; font-weight: 900; font-size: 13.5px}
-    .opts{display:grid; gap:8px; margin-top: 10px}
+    .qMeta{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    .qTitle{margin:8px 0 0; font-weight: 950; font-size: 13.5px}
+    .opts{display:grid;gap:8px;margin-top:10px}
     .opt{
-      display:flex; gap:10px; align-items:flex-start;
+      display:flex;gap:10px;align-items:flex-start;
       border:1px solid var(--line);
-      background: rgba(0,0,0,.16);
       border-radius: 14px;
       padding: 10px;
+      background: #fff;
       cursor:pointer;
-      transition: border-color .15s ease, background .15s ease, transform .06s ease;
+      transition: border-color .15s ease, background .15s ease;
     }
-    .opt:hover{border-color: rgba(79,140,255,.45); background: rgba(79,140,255,.10)}
-    .opt:active{transform: translateY(1px)}
+    .opt:hover{border-color: rgba(34,195,255,.75); background: var(--skySoft)}
     .opt input{margin-top:2px}
     .feedback{
       display:none;
-      margin-top: 10px;
+      margin-top:10px;
       border-radius: 14px;
       padding: 10px 12px;
       border:1px solid var(--line);
-      background: rgba(0,0,0,.16);
+      background:#fff;
       color: var(--muted);
       font-size: 13px;
     }
-    .feedback.good{
-      display:block;
-      border-color: rgba(51,209,122,.35);
-      background: rgba(51,209,122,.12);
-      color: rgba(232,255,245,.92);
-    }
-    .feedback.bad{
-      display:block;
-      border-color: rgba(255,90,111,.35);
-      background: rgba(255,90,111,.12);
-      color: rgba(255,235,238,.92);
-    }
+    .feedback.good{display:block; border-color: rgba(22,163,74,.35); background: rgba(22,163,74,.08); color:#14532d}
+    .feedback.bad{display:block; border-color: rgba(220,38,38,.35); background: rgba(220,38,38,.08); color:#7f1d1d}
+
     .footerBar{
-      margin-top: 12px;
+      margin-top:12px;
       padding-top: 12px;
-      border-top: 1px solid var(--line);
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
+      border-top:1px solid var(--line);
+      display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;
       color: var(--muted);
       font-size: 12.5px;
     }
-    .badge{
-      display:inline-flex; align-items:center; gap:8px;
-      padding: 8px 10px;
-      border-radius: 14px;
-      border:1px solid var(--line);
-      background: rgba(0,0,0,.16);
-      color: var(--muted);
-      font-size: 12px;
-    }
   </style>
 </head>
-<body>
-  <div class="shell">
 
-    <!-- ====================== LANDING / LOGIN ====================== -->
-    <section class="landing" id="landing">
-      <div class="topbar">
+<body>
+  <!-- ===================== LANDING / LOGIN ===================== -->
+  <div class="container" id="landing">
+    <header class="card">
+      <div class="row" style="justify-content:space-between">
         <div class="brand">
           <div class="logo" aria-hidden="true"></div>
           <div>
@@ -391,93 +379,75 @@
             <div class="tiny">uma startup do Baixo Tocantins • interior da Amazônia</div>
           </div>
         </div>
-
-        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
-          <span class="pill"><span class="dot"></span>Educação médica</span>
-          <span class="pill"><span class="dot c2"></span>Foco no que cai</span>
-          <span class="pill"><span class="dot good"></span>Plataforma modular</span>
+        <div class="row" style="justify-content:flex-end">
+          <span class="pill"><span class="dot"></span>Layout claro</span>
+          <span class="pill"><span class="dot"></span>Botões celeste</span>
+          <span class="pill"><span class="dot good"></span>Organização por tópicos</span>
         </div>
       </div>
+    </header>
 
-      <div class="hero glass">
-        <div class="heroHead">
-          <div class="heroHeadLeft">
-            <h1 class="h1">Plataforma BTX • Estudos inteligentes para prova</h1>
-            <p class="muted" style="margin:8px 0 0">
-              Um “motor” único (conteúdo + índice + questões comentadas) e várias matérias plugáveis.
-              Você adiciona tópicos depois sem refazer o site.
+    <section class="hero card">
+      <div class="grid2">
+        <div class="box">
+          <h1 class="h1">Plataforma BTX • Educação Médica com método</h1>
+          <p class="muted" style="margin:10px 0 0">
+            Aqui o estudo vira “sistema”: <b>Área → Tópicos → Seções</b>, com <b>índice automático</b>, e questões com feedback.
+            A ideia é você montar uma biblioteca inteira sem perder organização (Saúde Coletiva agradece!).
+          </p>
+
+          <div class="sep"></div>
+
+          <div class="box" style="background: var(--skySoft)">
+            <div class="h3" style="color:#053049">Nossa história</div>
+            <p style="color:#053049">
+              A <b>BTX TECH</b> nasce no Baixo Tocantins com missão prática: transformar estudo em resultado.
+              <br><br>
+              <b>Orlando Abreu</b> — dentista com especialização em <b>Cirurgia Buco Maxilofacial</b>; pós em <b>Saúde Coletiva</b>;
+              pós-graduando em <b>Patologia</b>; graduando em <b>Medicina</b> e <b>Engenharia da Computação</b>.
+              <br><br>
+              <b>Joszael Tarcio</b> — um gigante da comunicação, graduando em <b>Medicina</b>.
             </p>
           </div>
 
-          <div class="heroHeadRight">
-            <span class="pill"><span class="dot"></span>Clínica</span>
-            <span class="pill"><span class="dot c2"></span>Cirurgia</span>
-            <span class="pill"><span class="dot" style="background:#ffd166"></span>GO</span>
-            <span class="pill"><span class="dot" style="background:#9b8cff"></span>Pediatria</span>
-            <span class="pill"><span class="dot" style="background:#33d17a"></span>MFC</span>
-            <span class="pill"><span class="dot" style="background:#ff5a6f"></span>Saúde Mental</span>
-            <span class="pill"><span class="dot" style="background:#00d1ff"></span>Saúde Coletiva</span>
-          </div>
-        </div>
-
-        <div class="story">
-          <div class="box">
-            <div class="h3">Nossa história (o porquê disso existir)</div>
-            <p>
-              A BTX TECH nasce no Baixo Tocantins com uma missão bem prática: transformar estudo em resultado.
-              A gente acredita que passar em prova não é “sorte”, é <b>método</b>: saber o que cai, como cai e treinar com feedback.
-            </p>
-            <ul>
-              <li><b>Orlando Abreu</b>: dentista, especialização em <b>Cirurgia Buco Maxilofacial</b>; pós-graduação em <b>Saúde Coletiva</b>; pós-graduando em <b>Patologia</b>; graduando em <b>Medicina</b> e <b>Engenharia da Computação</b>.</li>
-              <li><b>Joszael Tarcio</b>: um gigante da comunicação, graduando em <b>Medicina</b>.</li>
-            </ul>
-          </div>
+          <div class="sep"></div>
 
           <div class="box">
-            <div class="h3">Contato (BTX TECH)</div>
-            <p><b>BTX TECH</b> — uma startup do Baixo Tocantins • interior da Amazônia</p>
+            <div class="h3">Contato</div>
             <ul>
+              <li><b>BTX TECH</b> — uma startup do Baixo Tocantins • interior da Amazônia</li>
               <li><b>Orlando Abreu</b>: (91) 99987-3835 / (91) 99298-0333</li>
               <li><b>E-mail</b>: orlandodentista@gmail.com</li>
               <li><b>Joszael Tarcio</b>: (86) 8171-2536</li>
             </ul>
-            <div class="sep"></div>
-            <div class="tiny">
-              *Este é um protótipo “site de verdade”: pode ir para GitHub Pages e virar PWA instalável.
-            </div>
           </div>
         </div>
 
-        <div class="sep"></div>
-
         <div class="box">
-          <div class="paneHeader">
+          <div class="row" style="justify-content:space-between">
             <div>
-              <div class="h3">Distribuição de matérias (ENAMED) — modelo inicial editável</div>
-              <div class="tiny">Você pode ajustar percentuais depois (menu “Config” na área privada).</div>
+              <div class="h2">Distribuição de matérias (ENAMED)</div>
+              <div class="tiny">Modelo inicial editável dentro do código.</div>
             </div>
-            <div class="chip"><span class="dot c2"></span><b id="sumPct">100%</b> total</div>
+            <span class="pill"><span class="dot"></span><b id="sumPct">100%</b></span>
           </div>
 
           <div class="chartWrap">
             <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
-              <canvas id="donut" width="220" height="220" aria-label="Distribuição ENAMED"></canvas>
+              <canvas id="donut" width="210" height="210"></canvas>
               <div class="tiny">Visão rápida do “peso” por área</div>
             </div>
-
             <div class="legend" id="legend"></div>
           </div>
 
           <div class="hint">
-            <b>Login</b>: digite sua chave de acesso para entrar na área privada (conteúdo + questões).
-            <div class="tiny" style="margin-top:6px">
-              Dica de produto: depois você pode trocar isso por assinatura (Firebase/Supabase).
-            </div>
+            <b>Login</b>: digite a chave de acesso para entrar na área privada.
+            <div class="tiny" style="margin-top:6px">Depois dá pra evoluir pra assinatura (Firebase/Supabase).</div>
           </div>
 
           <div class="loginRow">
-            <input class="input" id="accessKey" type="password" inputmode="numeric" placeholder="Chave de acesso" autocomplete="current-password" />
-            <button class="btn primary" id="btnLogin">Entrar</button>
+            <input class="input" id="accessKey" type="password" inputmode="numeric" placeholder="Chave de acesso" autocomplete="current-password"/>
+            <button class="btn" id="btnLogin">Entrar</button>
             <button class="btn ghost" id="btnDemo">Entrar como demo</button>
           </div>
 
@@ -485,145 +455,133 @@
         </div>
       </div>
     </section>
+  </div>
 
-    <!-- ====================== PRIVATE APP ====================== -->
-    <section class="app" id="app">
-      <div class="appTop">
-        <div class="left">
-          <div class="logo" style="width:34px;height:34px;border-radius:14px"></div>
-          <div>
-            <div style="font-weight:900;line-height:1">BTX TECH • Educação Médica</div>
-            <div class="tiny">Área privada • conteúdo + questões (modelo pronto pra você ir adicionando)</div>
-          </div>
-        </div>
-
-        <div class="right">
-          <span class="chip"><span class="dot"></span><span id="activeAreaLabel">—</span></span>
-          <button class="btn" id="btnMobileMenu">Menu</button>
-          <button class="btn ghost" id="btnConfig">Config</button>
-          <button class="btn ghost" id="btnLogout">Sair</button>
+  <!-- ===================== PRIVATE APP ===================== -->
+  <section class="app" id="app">
+    <div class="appTop">
+      <div class="left">
+        <div class="logo" style="width:34px;height:34px;border-radius:14px"></div>
+        <div>
+          <div style="font-weight:950;line-height:1">BTX TECH • Educação Médica</div>
+          <div class="tiny">Área privada • organização por tópicos (escala real)</div>
         </div>
       </div>
 
-      <div class="layout" id="layout">
-        <aside class="sidebar" id="sidebar">
-          <div class="panel">
-            <div class="h3">Áreas</div>
-            <div class="tiny" style="margin-top:6px">Clique numa área para abrir o “motor” (índice + conteúdo + questões).</div>
-            <div class="sep"></div>
-            <div id="areasNav"></div>
+      <div class="right">
+        <span class="chip"><span class="dot"></span><span id="activePath">—</span></span>
+        <button class="btn ghost" id="btnMobileMenu">Menu</button>
+        <button class="btn ghost" id="btnConfig">Config</button>
+        <button class="btn ghost" id="btnLogout">Sair</button>
+      </div>
+    </div>
+
+    <div class="layout" id="layout">
+      <aside class="sidebar card" id="sidebar" style="box-shadow:none;background:rgba(255,255,255,.6)">
+        <div class="panel" style="box-shadow:none">
+          <div class="h2">Navegação</div>
+          <div class="tiny" style="margin-top:6px">Área → Tópicos (com busca). Clique pra abrir.</div>
+
+          <div class="search">
+            <input id="topicSearch" placeholder="Buscar tópico… (ex.: SUS, vigilância, HAS, ECG)"/>
           </div>
 
-          <div style="height:12px"></div>
+          <div class="sep"></div>
+          <div id="nav"></div>
 
-          <div class="panel">
-            <div class="h3">Como adicionar conteúdo depois</div>
-            <div class="tiny" style="margin-top:6px">
-              Você só vai editar o objeto <span class="kbd">DB</span> no fim do arquivo:
-              <ul>
-                <li><b>content.sections</b> (títulos + texto)</li>
-                <li><b>questions</b> (enunciado + alternativas + correta + comentário)</li>
-              </ul>
+          <div class="sep"></div>
+          <div class="tiny">
+            <b>Como você adiciona depois:</b><br>
+            • <span class="kbd">DB.areas[].topics[]</span> (cria tópicos)<br>
+            • Cada tópico tem <span class="kbd">content.sections</span> e <span class="kbd">questions</span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="panel">
+          <div class="row" style="justify-content:space-between">
+            <div>
+              <div class="h2" id="topicTitle">Escolha um tópico no menu</div>
+              <div class="tiny" id="topicSubtitle">Você vai ver: índice do conteúdo + seções, e índice das questões + treino.</div>
             </div>
+            <div class="row" style="justify-content:flex-end">
+              <span class="pill"><span class="dot"></span>Índice</span>
+              <span class="pill"><span class="dot"></span>Conteúdo</span>
+              <span class="pill"><span class="dot good"></span>Questões</span>
+            </div>
+          </div>
+
+          <div class="twoPane">
+            <!-- CONTENT -->
+            <section class="panel" style="box-shadow:none">
+              <div class="paneHeader">
+                <div>
+                  <div class="h2">Conteúdo</div>
+                  <div class="tiny">Estruturado em seções + índice automático.</div>
+                </div>
+                <span class="chip"><span class="dot"></span><span id="secCount">0</span> seções</span>
+              </div>
+
+              <div class="toc">
+                <div class="tocTitle"><span class="dot"></span>Índice do conteúdo</div>
+                <ul id="tocList"></ul>
+              </div>
+
+              <div id="contentWrap"></div>
+            </section>
+
+            <!-- QUESTIONS -->
+            <section class="panel" style="box-shadow:none">
+              <div class="paneHeader">
+                <div>
+                  <div class="h2">Questões</div>
+                  <div class="tiny">Interativas + comentário por questão.</div>
+                </div>
+                <span class="chip"><span class="dot good"></span><span id="qCount">0</span> questões</span>
+              </div>
+
+              <div class="toc">
+                <div class="tocTitle"><span class="dot good"></span>Índice das questões</div>
+                <ul id="qIndex"></ul>
+              </div>
+
+              <div id="qWrap"></div>
+            </section>
           </div>
 
           <div class="footerBar">
-            <div class="badge">
-              <span class="dot c2"></span>
-              <span>BTX TECH • Baixo Tocantins</span>
+            <div>
+              <b>Contato BTX TECH</b><br/>
+              Orlando Abreu: (91) 99987-3835 / (91) 99298-0333 • orlandodentista@gmail.com • Joszael Tarcio: (86) 8171-2536
             </div>
-            <div class="tiny">v0.1 • offline-ready</div>
+            <div class="tiny">v0.2 • Layout claro + tópicos escaláveis</div>
           </div>
-        </aside>
-
-        <main class="content">
-          <div class="panel">
-            <div class="paneHeader">
-              <div>
-                <div class="h2" id="areaTitle">Bem-vindo</div>
-                <div class="tiny" id="areaSubtitle">Selecione uma área no menu à esquerda.</div>
-              </div>
-              <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
-                <span class="pill"><span class="dot"></span>Índice</span>
-                <span class="pill"><span class="dot c2"></span>Conteúdo</span>
-                <span class="pill"><span class="dot good"></span>Questões</span>
-              </div>
-            </div>
-
-            <div class="twoPane">
-              <!-- CONTENT PANE -->
-              <section class="panel">
-                <div class="paneHeader">
-                  <div>
-                    <div class="h3">Conteúdo</div>
-                    <div class="tiny">Com índice pronto. Você só vai preenchendo seção por seção.</div>
-                  </div>
-                  <div class="chip"><span class="dot c2"></span><span id="contentCount">0</span> seções</div>
-                </div>
-
-                <div class="toc" id="toc">
-                  <div class="tocTitle"><span class="dot"></span>Índice do conteúdo</div>
-                  <ul id="tocList"></ul>
-                </div>
-
-                <div id="contentSections"></div>
-              </section>
-
-              <!-- QUESTIONS PANE -->
-              <section class="panel">
-                <div class="paneHeader">
-                  <div>
-                    <div class="h3">Questões</div>
-                    <div class="tiny">Modelo interativo com resposta comentada por questão.</div>
-                  </div>
-                  <div class="chip"><span class="dot good"></span><span id="qCount">0</span> questões</div>
-                </div>
-
-                <div class="toc" id="qIndex">
-                  <div class="tocTitle"><span class="dot good"></span>Índice das questões</div>
-                  <ul id="qIndexList"></ul>
-                </div>
-
-                <div id="questionsWrap"></div>
-              </section>
-            </div>
-
-            <div class="footerBar">
-              <div>
-                <b>Contato BTX TECH</b><br/>
-                Orlando Abreu: (91) 99987-3835 / (91) 99298-0333 • orlandodentista@gmail.com • Joszael Tarcio: (86) 8171-2536
-              </div>
-              <div class="tiny">
-                “Foco no que cai + como cai + treino com feedback.”
-              </div>
-            </div>
-          </div>
-        </main>
-      </div>
-    </section>
-
-  </div>
+        </div>
+      </main>
+    </div>
+  </section>
 
   <script>
-    /*****************************************************************
-     * LOGIN: chave de acesso (não exibir nem sugerir na tela)
-     *****************************************************************/
-    const _ACCESS_CODE = "81069844"; // <-- fica aqui, invisível na UI
+    /***********************
+     * LOGIN (código escondido)
+     ***********************/
+    const _ACCESS_CODE = "81069844"; // não aparece na tela
     const SESSION_KEY = "btx_session_ok";
 
     const landing = document.getElementById("landing");
     const app = document.getElementById("app");
     const loginMsg = document.getElementById("loginMsg");
 
-    function setLoggedIn(isOk){
-      localStorage.setItem(SESSION_KEY, isOk ? "1" : "0");
-      landing.style.display = isOk ? "none" : "block";
-      app.style.display = isOk ? "block" : "none";
+    function setLoggedIn(ok){
+      localStorage.setItem(SESSION_KEY, ok ? "1" : "0");
+      landing.style.display = ok ? "none" : "block";
+      app.style.display = ok ? "block" : "none";
     }
-
     function tryAutoLogin(){
       const ok = localStorage.getItem(SESSION_KEY) === "1";
       setLoggedIn(ok);
+      if(ok) initApp();
     }
 
     document.getElementById("btnLogin").addEventListener("click", () => {
@@ -636,34 +594,30 @@
         loginMsg.innerHTML = `<span class="pill"><span class="dot bad"></span>Chave inválida</span> <span class="tiny">Verifique e tente de novo.</span>`;
       }
     });
-
     document.getElementById("btnDemo").addEventListener("click", () => {
       loginMsg.innerHTML = `<span class="pill"><span class="dot"></span>Modo demo</span> <span class="tiny">Você está vendo o modelo pronto.</span>`;
       setLoggedIn(true);
       initApp();
     });
-
     document.getElementById("btnLogout").addEventListener("click", () => {
       setLoggedIn(false);
       localStorage.setItem(SESSION_KEY, "0");
       location.reload();
     });
 
-    /*****************************************************************
-     * “Distribuição ENAMED” (modelo inicial editável)
-     * OBS: você pode ajustar percentuais em Config na área privada.
-     *****************************************************************/
+    /***********************
+     * ENAMED donut (modelo editável)
+     ***********************/
     const ENAMED_DIST = [
-      { key:"clin",  label:"Clínica Médica", pct: 22, color:"#4f8cff" },
-      { key:"cir",   label:"Cirurgia Geral", pct: 14, color:"#00d1ff" },
-      { key:"go",    label:"Gineco/Obstetrícia", pct: 16, color:"#ffd166" },
-      { key:"ped",   label:"Pediatria", pct: 14, color:"#9b8cff" },
-      { key:"mfc",   label:"Med. Família e Comunidade", pct: 12, color:"#33d17a" },
-      { key:"sm",    label:"Saúde Mental", pct: 12, color:"#ff5a6f" },
-      { key:"sc",    label:"Saúde Coletiva", pct: 10, color:"#00d1ff" }
+      { label:"Clínica Médica", pct: 22, color:"#2a7fff" },
+      { label:"Cirurgia Geral", pct: 14, color:"#22c3ff" },
+      { label:"Gineco/Obstetrícia", pct: 16, color:"#f59e0b" },
+      { label:"Pediatria", pct: 14, color:"#7c8cff" },
+      { label:"MFC", pct: 12, color:"#16a34a" },
+      { label:"Saúde Mental", pct: 12, color:"#dc2626" },
+      { label:"Saúde Coletiva", pct: 10, color:"#0ea5e9" }
     ];
-
-    function sumPct(list){ return list.reduce((a,b)=>a + (Number(b.pct)||0), 0); }
+    const sumPct = arr => arr.reduce((a,b)=>a + (Number(b.pct)||0), 0);
 
     function renderLegend(){
       const leg = document.getElementById("legend");
@@ -690,18 +644,16 @@
       const cx = w/2, cy = h/2;
       const r = Math.min(w,h)/2 - 10;
       const rIn = r * 0.62;
-
       ctx.clearRect(0,0,w,h);
 
-      // fundo
+      // base
       ctx.beginPath();
       ctx.arc(cx,cy,r,0,Math.PI*2);
-      ctx.fillStyle = "rgba(255,255,255,.08)";
+      ctx.fillStyle = "rgba(11,18,32,.06)";
       ctx.fill();
 
       let start = -Math.PI/2;
       const total = sumPct(ENAMED_DIST) || 100;
-
       ENAMED_DIST.forEach(it => {
         const ang = (it.pct/total) * Math.PI*2;
         ctx.beginPath();
@@ -713,212 +665,278 @@
         start += ang;
       });
 
-      // furo
+      // hole
       ctx.beginPath();
       ctx.arc(cx,cy,rIn,0,Math.PI*2);
-      ctx.fillStyle = "rgba(11,18,32,.92)";
+      ctx.fillStyle = "#ffffff";
       ctx.fill();
 
-      // texto central
-      ctx.fillStyle = "rgba(234,240,255,.92)";
-      ctx.font = "900 18px " + getComputedStyle(document.body).fontFamily;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
+      // center text
+      ctx.textAlign="center";
+      ctx.textBaseline="middle";
+      ctx.fillStyle="#053049";
+      ctx.font="900 16px system-ui";
       ctx.fillText("ENAMED", cx, cy-6);
-
-      ctx.fillStyle = "rgba(234,240,255,.70)";
-      ctx.font = "700 12px " + getComputedStyle(document.body).fontFamily;
+      ctx.fillStyle="rgba(5,48,73,.75)";
+      ctx.font="800 12px system-ui";
       ctx.fillText("distribuição", cx, cy+14);
     }
 
-    /*****************************************************************
-     * APP: DB modular (você só vai preenchendo depois)
-     *****************************************************************/
+    /***********************
+     * DB (AGORA: Área -> Tópicos -> Seções)
+     * Você só preenche depois
+     ***********************/
     const DB = {
       areas: [
         {
+          id:"sc",
+          name:"Saúde Coletiva",
+          topics: [
+            {
+              id:"sc_sus",
+              title:"SUS: princípios, diretrizes e organização",
+              subtitle:"O básico que cai sempre (universalidade, integralidade, equidade; regionalização; RAS).",
+              content: {
+                sections: [
+                  { id:"sc_sus_1", title:"Princípios doutrinários", text:"(Placeholder) Universalidade, integralidade, equidade — como a banca cobra e onde confunde." },
+                  { id:"sc_sus_2", title:"Diretrizes organizativas", text:"(Placeholder) Descentralização, regionalização, hierarquização, participação social." }
+                ]
+              },
+              questions: [
+                // Cole aqui questões depois (modelo pronto)
+              ]
+            },
+            {
+              id:"sc_epi",
+              title:"Epidemiologia: medidas e interpretação",
+              subtitle:"Incidência, prevalência, RR, OR, sensibilidade/especificidade (pegadinha clássica).",
+              content: { sections: [
+                { id:"sc_epi_1", title:"Medidas de frequência", text:"(Placeholder) Incidência x prevalência — quando usar." }
+              ]},
+              questions:[]
+            },
+            {
+              id:"sc_vig",
+              title:"Vigilância em saúde e notificação",
+              subtitle:"O que notifica, por que notifica e como isso aparece em prova.",
+              content: { sections: [
+                { id:"sc_vig_1", title:"Notificação compulsória", text:"(Placeholder) Conceito, dever e pegadinhas com sigilo." }
+              ]},
+              questions:[]
+            }
+          ]
+        },
+        {
           id:"clin",
           name:"Clínica Médica",
-          subtitle:"Base de prova: raciocínio clínico, conduta e interpretação.",
-          content: {
-            sections: [
-              { id:"clin-1", title:"Como esse módulo funciona", text:"Aqui você vai colar o conteúdo didático (em seções). Use linguagem direta: regra → exceção → pegadinha → como cai." },
-              { id:"clin-2", title:"Checklist de prova (placeholder)", text:"Ex.: dor torácica, dispneia, sepse, HAS/DM, antibiótico, urgência. (Você vai completar depois.)" }
-            ]
-          },
-          questions: [
-            // coloque questões depois (modelo pronto)
+          topics: [
+            { id:"clin_has", title:"Hipertensão arterial", subtitle:"O que mais cai: diagnóstico, alvo, tratamento e escolhas.", content:{sections:[
+              { id:"clin_has_1", title:"Classificação e diagnóstico", text:"(Placeholder) Como confirmar HAS e erros comuns." }
+            ]}, questions:[] },
+            { id:"clin_ecg", title:"ECG: o que mais cai", subtitle:"Eixo, IAM, bloqueios, armadilhas.", content:{sections:[
+              { id:"clin_ecg_1", title:"Leitura sistemática", text:"(Placeholder) Passo a passo que banca ama." }
+            ]}, questions:[] }
+          ]
+        },
+        {
+          id:"go",
+          name:"Gineco/Obstetrícia",
+          topics: [
+            { id:"go_pn", title:"Pré-natal", subtitle:"Rotina, exames, alto risco, condutas.", content:{sections:[
+              { id:"go_pn_1", title:"Calendário do pré-natal", text:"(Placeholder) Consultas, exames e vacinas." }
+            ]}, questions:[] }
+          ]
+        },
+        {
+          id:"ped",
+          name:"Pediatria",
+          topics: [
+            { id:"ped_febre", title:"Febre na criança", subtitle:"Estratificação de risco e conduta.", content:{sections:[
+              { id:"ped_febre_1", title:"Sinais de gravidade", text:"(Placeholder) Red flags e quando internar." }
+            ]}, questions:[] }
+          ]
+        },
+        {
+          id:"sm",
+          name:"Saúde Mental",
+          topics: [
+            { id:"sm_dep", title:"Depressão: diagnóstico e manejo", subtitle:"O que cai: critérios, risco, tratamento e seguimento.", content:{sections:[
+              { id:"sm_dep_1", title:"Triagem e risco", text:"(Placeholder) ideação suicida e conduta." }
+            ]}, questions:[] }
           ]
         },
         {
           id:"cir",
           name:"Cirurgia Geral",
-          subtitle:"Abdome agudo, trauma, infecção, indicação cirúrgica, perioperatório.",
-          content: { sections: [
-            { id:"cir-1", title:"Template de conteúdo", text:"Crie blocos: Diagnóstico → Conduta → Pegadinhas → Erros comuns." }
-          ]},
-          questions:[]
-        },
-        {
-          id:"go",
-          name:"Ginecologia e Obstetrícia",
-          subtitle:"Pré-natal, síndromes hipertensivas, hemorragias, rastreios, urgências.",
-          content:{ sections:[
-            { id:"go-1", title:"Template de conteúdo", text:"Organize por trimestre e síndromes. Feche com mapa mental e sinais de gravidade." }
-          ]},
-          questions:[]
-        },
-        {
-          id:"ped",
-          name:"Pediatria",
-          subtitle:"Febre, diarreia, asma, crescimento, sinais de gravidade, condutas.",
-          content:{ sections:[
-            { id:"ped-1", title:"Template de conteúdo", text:"Use: idade → hipótese → conduta → quando internar." }
-          ]},
-          questions:[]
+          topics: [
+            { id:"cir_abd", title:"Abdome agudo", subtitle:"Diagnóstico diferencial + indicação cirúrgica.", content:{sections:[
+              { id:"cir_abd_1", title:"Abordagem inicial", text:"(Placeholder) estabilidade, exames e conduta." }
+            ]}, questions:[] }
+          ]
         },
         {
           id:"mfc",
-          name:"Medicina de Família e Comunidade",
-          subtitle:"APS raiz: prevenção, abordagem centrada na pessoa, seguimento e estratificação.",
-          content:{ sections:[
-            { id:"mfc-1", title:"Template de conteúdo", text:"Foque em linhas de cuidado, rastreio e manejo na APS." }
-          ]},
-          questions:[]
-        },
-        {
-          id:"sm",
-          name:"Saúde Mental",
-          subtitle:"Depressão, ansiedade, psicose, risco suicida, dependência, conduta.",
-          content:{ sections:[
-            { id:"sm-1", title:"Template de conteúdo", text:"Sempre inclua: risco, red flags, segurança e encaminhamento." }
-          ]},
-          questions:[]
-        },
-        {
-          id:"sc",
-          name:"Saúde Coletiva",
-          subtitle:"SUS, epidemiologia, vigilância, políticas públicas, ética e prevenção.",
-          content:{ sections:[
-            { id:"sc-1", title:"Template de conteúdo", text:"Use: conceito → aplicação → exemplo de prova." }
-          ]},
-          questions:[]
+          name:"MFC",
+          topics: [
+            { id:"mfc_rast", title:"Rastreios na APS", subtitle:"O que rastrear, quando e como cai.", content:{sections:[
+              { id:"mfc_rast_1", title:"Princípios do rastreio", text:"(Placeholder) sensibilidade/especificidade e vieses." }
+            ]}, questions:[] }
+          ]
         }
       ]
     };
 
-    /*****************************************************************
-     * Render APP
-     *****************************************************************/
-    const areasNav = document.getElementById("areasNav");
-    const areaTitle = document.getElementById("areaTitle");
-    const areaSubtitle = document.getElementById("areaSubtitle");
+    /***********************
+     * APP render (Área -> Tópicos)
+     ***********************/
+    const nav = document.getElementById("nav");
+    const topicSearch = document.getElementById("topicSearch");
+    const activePath = document.getElementById("activePath");
+
+    const topicTitle = document.getElementById("topicTitle");
+    const topicSubtitle = document.getElementById("topicSubtitle");
     const tocList = document.getElementById("tocList");
-    const contentSections = document.getElementById("contentSections");
-    const contentCount = document.getElementById("contentCount");
-    const qIndexList = document.getElementById("qIndexList");
-    const questionsWrap = document.getElementById("questionsWrap");
+    const contentWrap = document.getElementById("contentWrap");
+    const secCount = document.getElementById("secCount");
+
     const qCount = document.getElementById("qCount");
-    const activeAreaLabel = document.getElementById("activeAreaLabel");
+    const qIndex = document.getElementById("qIndex");
+    const qWrap = document.getElementById("qWrap");
 
-    let activeAreaId = null;
+    let active = { areaId:null, topicId:null };
 
-    function renderAreasNav(){
-      areasNav.innerHTML = "";
-      DB.areas.forEach(a => {
-        const item = document.createElement("div");
-        item.className = "navItem" + (a.id === activeAreaId ? " active" : "");
-        item.textContent = a.name;
-        item.addEventListener("click", () => setActiveArea(a.id));
-        areasNav.appendChild(item);
+    function escapeHtml(s){
+      return String(s ?? "")
+        .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+    }
+    function truncate(s,n){
+      s = String(s||"");
+      return s.length > n ? s.slice(0,n-1)+"…" : s;
+    }
+
+    function buildNav(){
+      nav.innerHTML = "";
+      const query = (topicSearch.value || "").trim().toLowerCase();
+
+      DB.areas.forEach(area => {
+        // filter topics
+        const topicsFiltered = (area.topics || []).filter(t => {
+          if(!query) return true;
+          return (t.title || "").toLowerCase().includes(query) || (t.subtitle || "").toLowerCase().includes(query);
+        });
+
+        const group = document.createElement("div");
+        group.className = "group";
+
+        const header = document.createElement("div");
+        header.className = "groupTitle";
+        header.innerHTML = `
+          <span>${escapeHtml(area.name)}</span>
+          <span class="kbd">${topicsFiltered.length}</span>
+        `;
+        group.appendChild(header);
+
+        const body = document.createElement("div");
+        body.className = "groupBody open";
+
+        topicsFiltered.forEach(t => {
+          const btn = document.createElement("div");
+          btn.className = "topicBtn" + ((active.areaId===area.id && active.topicId===t.id) ? " active" : "");
+          btn.innerHTML = `
+            <div style="font-weight:950">${escapeHtml(t.title)}</div>
+            <div class="tiny">${escapeHtml(t.subtitle || "")}</div>
+          `;
+          btn.addEventListener("click", ()=> setActiveTopic(area.id, t.id));
+          body.appendChild(btn);
+        });
+
+        header.addEventListener("click", ()=>{
+          body.classList.toggle("open");
+        });
+
+        group.appendChild(body);
+        nav.appendChild(group);
       });
     }
 
-    function setActiveArea(id){
-      activeAreaId = id;
-      const a = DB.areas.find(x => x.id === id);
-      if(!a) return;
+    function setActiveTopic(areaId, topicId){
+      active.areaId = areaId;
+      active.topicId = topicId;
 
-      // top label
-      activeAreaLabel.textContent = a.name;
+      const area = DB.areas.find(a => a.id === areaId);
+      const topic = area?.topics?.find(t => t.id === topicId);
+      if(!topic) return;
 
-      // title
-      areaTitle.textContent = a.name;
-      areaSubtitle.textContent = a.subtitle || "";
+      activePath.textContent = `${area.name} › ${topic.title}`;
+
+      topicTitle.textContent = topic.title;
+      topicSubtitle.textContent = topic.subtitle || "";
 
       // content
-      const secs = (a.content && a.content.sections) ? a.content.sections : [];
-      contentCount.textContent = secs.length;
-
+      const sections = topic.content?.sections || [];
+      secCount.textContent = sections.length;
       tocList.innerHTML = "";
-      contentSections.innerHTML = "";
-      secs.forEach((s, idx) => {
-        // TOC
+      contentWrap.innerHTML = "";
+
+      sections.forEach((s, i) => {
         const li = document.createElement("li");
-        li.innerHTML = `<a href="#${s.id}" style="color:inherit;text-decoration:none">${s.title}</a>`;
+        li.innerHTML = `<a href="#${s.id}" style="text-decoration:none">${escapeHtml(s.title)}</a>`;
         tocList.appendChild(li);
 
-        // Section
         const sec = document.createElement("div");
         sec.className = "sec";
         sec.id = s.id;
         sec.innerHTML = `
-          <div class="h3">${idx+1}. ${s.title}</div>
+          <div class="h2">${i+1}. ${escapeHtml(s.title)}</div>
           <p>${escapeHtml(s.text || "")}</p>
         `;
-        contentSections.appendChild(sec);
+        contentWrap.appendChild(sec);
       });
 
       // questions
-      const qs = Array.isArray(a.questions) ? a.questions : [];
+      const qs = topic.questions || [];
       qCount.textContent = qs.length;
-
-      qIndexList.innerHTML = "";
-      questionsWrap.innerHTML = "";
+      qIndex.innerHTML = "";
+      qWrap.innerHTML = "";
 
       if(qs.length === 0){
         const empty = document.createElement("div");
         empty.className = "sec";
         empty.innerHTML = `
-          <div class="h3">Questões (vazio por enquanto)</div>
-          <p>Quando você quiser, eu monto 50/100 questões por área no mesmo padrão (média-alta, comentadas).<br/>
-          Você só cola no array <span class="kbd">questions</span> desta área.</p>
+          <div class="h2">Questões (vazio por enquanto)</div>
+          <p>
+            Você só vai adicionar no array <span class="kbd">questions</span> deste tópico.
+            Se quiser, eu gero 50 questões média-alta por tópico no mesmo padrão.
+          </p>
         `;
-        questionsWrap.appendChild(empty);
+        qWrap.appendChild(empty);
       }else{
         qs.forEach((q, qi) => {
-          // index
           const li = document.createElement("li");
-          li.innerHTML = `<a href="#q_${id}_${qi}" style="color:inherit;text-decoration:none">Q${qi+1}: ${truncate(q.enunciado || "Questão", 36)}</a>`;
-          qIndexList.appendChild(li);
+          li.innerHTML = `<a href="#q_${topicId}_${qi}" style="text-decoration:none">Q${qi+1}: ${escapeHtml(truncate(q.enunciado, 42))}</a>`;
+          qIndex.appendChild(li);
 
-          // card
           const card = document.createElement("div");
           card.className = "qCard";
-          card.id = `q_${id}_${qi}`;
-
-          const tema = q.tema ? `<span class="chip"><span class="dot"></span>${escapeHtml(q.tema)}</span>` : "";
+          card.id = `q_${topicId}_${qi}`;
           card.innerHTML = `
             <div class="qMeta">
-              <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-                <span class="chip"><span class="dot good"></span>Q${qi+1}</span>
-                ${tema}
-              </div>
-              <span class="chip"><span class="dot c2"></span>Média-alta</span>
+              <span class="chip"><span class="dot good"></span>Q${qi+1}</span>
+              <span class="chip"><span class="dot"></span>Média-alta</span>
             </div>
-            <div class="qTitle">${escapeHtml(q.enunciado || "")}</div>
-            <div class="opts" id="opts_${id}_${qi}"></div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px;justify-content:space-between">
-              <button class="btn primary" id="btn_${id}_${qi}">Conferir</button>
-              <span class="tiny">Dica: regra → exceção → pegadinha.</span>
+            <div class="qTitle">${escapeHtml(q.enunciado)}</div>
+            <div class="opts" id="opts_${topicId}_${qi}"></div>
+            <div class="row" style="justify-content:space-between;margin-top:10px">
+              <button class="btn" id="btn_${topicId}_${qi}">Conferir</button>
+              <span class="tiny">Regra → exceção → pegadinha.</span>
             </div>
-            <div class="feedback" id="fb_${id}_${qi}"></div>
+            <div class="feedback" id="fb_${topicId}_${qi}"></div>
           `;
+          qWrap.appendChild(card);
 
-          questionsWrap.appendChild(card);
-
-          const optsEl = document.getElementById(`opts_${id}_${qi}`);
-          const name = `q_${id}_${qi}`;
+          const optsEl = document.getElementById(`opts_${topicId}_${qi}`);
+          const name = `q_${topicId}_${qi}`;
           (q.alternativas || []).forEach((opt, oi) => {
             const lab = document.createElement("label");
             lab.className = "opt";
@@ -926,32 +944,29 @@
               <input type="radio" name="${name}" value="${oi}">
               <div>${escapeHtml(String.fromCharCode(65+oi) + ") " + opt)}</div>
             `;
-            lab.addEventListener("click", () => {
-              lab.querySelector("input").checked = true;
-            });
+            lab.addEventListener("click", ()=> lab.querySelector("input").checked = true);
             optsEl.appendChild(lab);
           });
 
-          document.getElementById(`btn_${id}_${qi}`).addEventListener("click", () => checkQuestion(id, qi));
+          document.getElementById(`btn_${topicId}_${qi}`).addEventListener("click", ()=>{
+            checkQuestion(topic, topicId, qi);
+          });
         });
       }
 
-      // refresh nav
-      renderAreasNav();
-
-      // close mobile menu if open
+      buildNav();
+      // fecha menu mobile
       document.getElementById("layout").classList.remove("mobile");
       window.scrollTo({top:0, behavior:"smooth"});
     }
 
-    function checkQuestion(areaId, qi){
-      const a = DB.areas.find(x => x.id === areaId);
-      const q = a?.questions?.[qi];
+    function checkQuestion(topic, topicId, qi){
+      const q = topic?.questions?.[qi];
       if(!q) return;
 
-      const name = `q_${areaId}_${qi}`;
+      const name = `q_${topicId}_${qi}`;
       const chosenEl = document.querySelector(`input[name="${name}"]:checked`);
-      const fb = document.getElementById(`fb_${areaId}_${qi}`);
+      const fb = document.getElementById(`fb_${topicId}_${qi}`);
       if(!chosenEl){
         fb.className = "feedback bad";
         fb.textContent = "Escolhe uma alternativa antes.";
@@ -960,72 +975,56 @@
       const chosen = Number(chosenEl.value);
       const correct = Number(q.correta);
 
-      // lock radios
       document.querySelectorAll(`input[name="${name}"]`).forEach(r => r.disabled = true);
 
       if(chosen === correct){
         fb.className = "feedback good";
-        fb.innerHTML = `<b>✅ Correta.</b> ${escapeHtml(q.comentario || "Boa!")} `;
+        fb.innerHTML = `<b>✅ Correta.</b> ${escapeHtml(q.comentario || "Boa!")}`;
       }else{
         fb.className = "feedback bad";
-        fb.innerHTML = `<b>❌ Incorreta.</b> Correta: <b>${String.fromCharCode(65+correct)})</b> ${escapeHtml(q.alternativas?.[correct] || "")}<br/><br/><b>Comentário:</b> ${escapeHtml(q.comentario || "")}`;
+        fb.innerHTML = `<b>❌ Incorreta.</b> Correta: <b>${String.fromCharCode(65+correct)})</b> ${escapeHtml(q.alternativas?.[correct] || "")}<br><br><b>Comentário:</b> ${escapeHtml(q.comentario || "")}`;
       }
 
-      // disable button
-      const btn = document.getElementById(`btn_${areaId}_${qi}`);
+      const btn = document.getElementById(`btn_${topicId}_${qi}`);
       btn.disabled = true;
       btn.textContent = "Respondida";
-      btn.classList.remove("primary");
     }
 
-    function escapeHtml(s){
-      return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
-    }
-    function truncate(s,n){
-      s = String(s || "");
-      return s.length > n ? s.slice(0,n-1) + "…" : s;
-    }
-
-    /*****************************************************************
-     * Config (simples): ajustar percentuais do gráfico (editável)
-     *****************************************************************/
-    document.getElementById("btnConfig").addEventListener("click", () => {
-      const msg =
-`CONFIG (rápido):
-Você edita aqui no código (objetos ENAMED_DIST e DB).
-- ENAMED_DIST: muda percentuais do gráfico do login
-- DB.areas[*].content.sections: adiciona conteúdo por área
-- DB.areas[*].questions: adiciona questões por área
-
-Quer que eu transforme isso num painel de configuração dentro do site (sem mexer no código)?`;
-      alert(msg);
+    /***********************
+     * Mobile menu + config
+     ***********************/
+    document.getElementById("btnMobileMenu").addEventListener("click", ()=>{
+      document.getElementById("layout").classList.toggle("mobile");
+      document.getElementById("sidebar").style.display = "block";
     });
 
-    /*****************************************************************
-     * Mobile menu
-     *****************************************************************/
-    document.getElementById("btnMobileMenu").addEventListener("click", () => {
-      const layout = document.getElementById("layout");
-      layout.classList.toggle("mobile");
-      // mostra sidebar no mobile
-      if(window.innerWidth <= 980){
-        document.getElementById("sidebar").style.display = "block";
-      }
+    document.getElementById("btnConfig").addEventListener("click", ()=>{
+      alert(
+`CONFIG (rápido):
+Agora está escalável:
+- DB.areas[].topics[] = seus tópicos (Saúde Coletiva pode ter 50 tópicos sem bagunça)
+- topic.content.sections[] = seções do conteúdo (índice automático)
+- topic.questions[] = questões do tópico
+
+Quer que eu crie um painel dentro do site pra você adicionar tópicos/questões sem mexer no código?`
+      );
     });
 
     function initApp(){
-      // render sidebar + default area
-      renderAreasNav();
-      if(!activeAreaId) setActiveArea(DB.areas[0].id);
+      buildNav();
+      // abre um tópico padrão (primeiro encontrado)
+      const firstArea = DB.areas[0];
+      const firstTopic = firstArea?.topics?.[0];
+      if(firstArea && firstTopic){
+        setActiveTopic(firstArea.id, firstTopic.id);
+      }
     }
 
     // Boot
     renderLegend();
     drawDonut();
     tryAutoLogin();
-    if(localStorage.getItem(SESSION_KEY) === "1"){
-      initApp();
-    }
+    topicSearch.addEventListener("input", buildNav);
   </script>
 </body>
 </html>
