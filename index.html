@@ -1,0 +1,1031 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BTX TECH • Educação Médica (Beta)</title>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --bg2:#0f1a2e;
+      --card: rgba(255,255,255,.08);
+      --card2: rgba(255,255,255,.06);
+      --line: rgba(255,255,255,.14);
+      --ink: #eaf0ff;
+      --muted: rgba(234,240,255,.72);
+      --soft: rgba(234,240,255,.18);
+      --accent: #4f8cff;
+      --accent2:#00d1ff;
+      --good:#33d17a;
+      --bad:#ff5a6f;
+      --warn:#ffd166;
+      --shadow: 0 22px 60px rgba(0,0,0,.35);
+      --r: 18px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,"Liberation Mono","Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans","Helvetica Neue";
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--ink);
+      background:
+        radial-gradient(900px 560px at 12% -8%, rgba(79,140,255,.22), transparent 58%),
+        radial-gradient(820px 520px at 110% 10%, rgba(0,209,255,.18), transparent 55%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      overflow-x:hidden;
+    }
+    a{color:inherit}
+    .shell{min-height:100%;}
+
+    /* ====== Shared UI ====== */
+    .glass{
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      box-shadow: var(--shadow);
+      border-radius: var(--r);
+      backdrop-filter: blur(14px);
+    }
+    .btn{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: var(--ink);
+      padding: 11px 12px;
+      border-radius: 14px;
+      font-weight: 800;
+      cursor:pointer;
+      transition: transform .06s ease, border-color .2s ease, background .2s ease;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      user-select:none;
+    }
+    .btn:hover{border-color: rgba(79,140,255,.45); background: rgba(79,140,255,.10)}
+    .btn:active{transform: translateY(1px)}
+    .btn.primary{
+      border-color: rgba(0,209,255,.55);
+      background: linear-gradient(180deg, rgba(0,209,255,.20), rgba(79,140,255,.14));
+    }
+    .btn.ghost{background: transparent}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .dot{width:9px;height:9px;border-radius: 99px;background: var(--accent)}
+    .dot.c2{background: var(--accent2)}
+    .dot.good{background: var(--good)}
+    .dot.bad{background: var(--bad)}
+    .kbd{
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 2px 7px;
+      border:1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(0,0,0,.18);
+      color: var(--muted);
+    }
+    .muted{color: var(--muted)}
+    .tiny{font-size: 12px; color: var(--muted)}
+    .h1{font-size: 26px; margin:0}
+    .h2{font-size: 16px; margin:0}
+    .h3{font-size: 14px; margin:0}
+    .sep{height:1px;background: var(--line); margin: 12px 0}
+    .grid2{display:grid; grid-template-columns: 1.1fr .9fr; gap: 16px}
+    @media (max-width: 980px){ .grid2{grid-template-columns: 1fr} }
+
+    /* ====== Login / Landing ====== */
+    .landing{
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 26px 16px 50px;
+    }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+      margin-bottom: 14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+    }
+    .logo{
+      width:44px;height:44px;border-radius: 16px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), transparent 52%),
+                  linear-gradient(135deg, rgba(79,140,255,1), rgba(0,209,255,1));
+      box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.18);
+    }
+    .hero{
+      padding: 18px;
+    }
+    .heroHead{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:14px; flex-wrap:wrap;
+    }
+    .heroHeadLeft{
+      min-width: 280px;
+    }
+    .heroHeadRight{
+      display:flex; gap:8px; flex-wrap:wrap;
+      justify-content:flex-end;
+      max-width: 520px;
+    }
+    .story{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 12px;
+    }
+    @media (max-width: 920px){ .story{grid-template-columns: 1fr} }
+    .box{
+      padding: 14px;
+      border-radius: 16px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+    }
+    .box ul{margin:8px 0 0; padding-left: 16px; color: var(--muted); font-size: 13px}
+    .box p{margin:8px 0 0; color: var(--muted); font-size: 13px}
+    .chartWrap{
+      display:grid;
+      grid-template-columns: 220px 1fr;
+      gap: 14px;
+      align-items:center;
+      margin-top: 12px;
+    }
+    @media (max-width: 640px){ .chartWrap{grid-template-columns: 1fr} }
+    canvas{max-width:100%}
+    .legend{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 12px;
+    }
+    @media (max-width: 560px){ .legend{grid-template-columns: 1fr} }
+    .legItem{
+      display:flex; align-items:center; justify-content:space-between; gap: 10px;
+      padding: 8px 10px;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+    .sw{width:10px;height:10px;border-radius:3px; background: var(--accent)}
+    .loginRow{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      margin-top: 12px;
+    }
+    .input{
+      flex: 1 1 240px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+      color: var(--ink);
+      padding: 12px 12px;
+      border-radius: 14px;
+      outline:none;
+      font-weight: 800;
+      letter-spacing: .3px;
+    }
+    .hint{
+      margin-top: 10px;
+      border:1px dashed rgba(0,209,255,.35);
+      background: rgba(0,209,255,.08);
+      border-radius: 16px;
+      padding: 12px;
+      color: rgba(234,240,255,.88);
+      font-size: 13px;
+    }
+
+    /* ====== App / Private Area ====== */
+    .app{
+      display:none;
+      height: 100vh;
+      overflow:hidden;
+    }
+    .appTop{
+      height: 62px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding: 10px 12px;
+      border-bottom:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      backdrop-filter: blur(12px);
+    }
+    .appTop .left{display:flex; align-items:center; gap:10px}
+    .appTop .right{display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:flex-end}
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .layout{
+      display:grid;
+      grid-template-columns: 280px 1fr;
+      height: calc(100vh - 62px);
+      overflow:hidden;
+    }
+    @media (max-width: 980px){
+      .layout{grid-template-columns: 1fr}
+      .sidebar{display:none}
+      .layout.mobile .sidebar{display:block; position:absolute; z-index:5; top:62px; left:10px; right:10px; height: calc(100vh - 74px)}
+    }
+    .sidebar{
+      padding: 12px;
+      overflow:auto;
+      border-right:1px solid var(--line);
+      background: rgba(255,255,255,.05);
+    }
+    .content{
+      padding: 12px;
+      overflow:auto;
+    }
+    .navGroup{margin-bottom: 10px}
+    .navTitle{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding: 10px 10px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.12);
+      border-radius: 14px;
+      cursor:pointer;
+      user-select:none;
+      font-weight: 900;
+      font-size: 13px;
+    }
+    .navList{
+      margin-top: 8px;
+      display:grid;
+      gap: 8px;
+    }
+    .navItem{
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      border-radius: 14px;
+      padding: 10px 10px;
+      cursor:pointer;
+      color: var(--muted);
+      font-size: 13px;
+      transition: border-color .2s ease, background .2s ease;
+    }
+    .navItem:hover{border-color: rgba(79,140,255,.45); background: rgba(79,140,255,.10)}
+    .navItem.active{border-color: rgba(0,209,255,.55); background: rgba(0,209,255,.10); color: rgba(234,240,255,.92)}
+    .panel{
+      padding: 14px;
+      border-radius: 18px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.06);
+    }
+    .twoPane{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items:start;
+      margin-top: 12px;
+    }
+    @media (max-width: 980px){ .twoPane{grid-template-columns: 1fr} }
+    .paneHeader{
+      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      margin-bottom: 10px;
+    }
+    .toc{
+      border:1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(0,0,0,.14);
+      padding: 10px;
+      margin-bottom: 12px;
+    }
+    .toc .tocTitle{font-weight:900; font-size: 12.5px; color: rgba(234,240,255,.9); display:flex; align-items:center; gap:8px}
+    .toc ul{margin:10px 0 0; padding-left: 16px; color: var(--muted); font-size: 13px}
+    .sec{
+      border:1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,.05);
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    .sec p{margin:8px 0 0; color: var(--muted); font-size: 13.5px}
+    .qCard{
+      border:1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,.05);
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    .qMeta{display:flex; gap:8px; flex-wrap:wrap; align-items:center; justify-content:space-between}
+    .qTitle{margin: 8px 0 0; font-weight: 900; font-size: 13.5px}
+    .opts{display:grid; gap:8px; margin-top: 10px}
+    .opt{
+      display:flex; gap:10px; align-items:flex-start;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.16);
+      border-radius: 14px;
+      padding: 10px;
+      cursor:pointer;
+      transition: border-color .15s ease, background .15s ease, transform .06s ease;
+    }
+    .opt:hover{border-color: rgba(79,140,255,.45); background: rgba(79,140,255,.10)}
+    .opt:active{transform: translateY(1px)}
+    .opt input{margin-top:2px}
+    .feedback{
+      display:none;
+      margin-top: 10px;
+      border-radius: 14px;
+      padding: 10px 12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.16);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .feedback.good{
+      display:block;
+      border-color: rgba(51,209,122,.35);
+      background: rgba(51,209,122,.12);
+      color: rgba(232,255,245,.92);
+    }
+    .feedback.bad{
+      display:block;
+      border-color: rgba(255,90,111,.35);
+      background: rgba(255,90,111,.12);
+      color: rgba(255,235,238,.92);
+    }
+    .footerBar{
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 8px 10px;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.16);
+      color: var(--muted);
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+
+    <!-- ====================== LANDING / LOGIN ====================== -->
+    <section class="landing" id="landing">
+      <div class="topbar">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <div class="h2">BTX TECH</div>
+            <div class="tiny">uma startup do Baixo Tocantins • interior da Amazônia</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
+          <span class="pill"><span class="dot"></span>Educação médica</span>
+          <span class="pill"><span class="dot c2"></span>Foco no que cai</span>
+          <span class="pill"><span class="dot good"></span>Plataforma modular</span>
+        </div>
+      </div>
+
+      <div class="hero glass">
+        <div class="heroHead">
+          <div class="heroHeadLeft">
+            <h1 class="h1">Plataforma BTX • Estudos inteligentes para prova</h1>
+            <p class="muted" style="margin:8px 0 0">
+              Um “motor” único (conteúdo + índice + questões comentadas) e várias matérias plugáveis.
+              Você adiciona tópicos depois sem refazer o site.
+            </p>
+          </div>
+
+          <div class="heroHeadRight">
+            <span class="pill"><span class="dot"></span>Clínica</span>
+            <span class="pill"><span class="dot c2"></span>Cirurgia</span>
+            <span class="pill"><span class="dot" style="background:#ffd166"></span>GO</span>
+            <span class="pill"><span class="dot" style="background:#9b8cff"></span>Pediatria</span>
+            <span class="pill"><span class="dot" style="background:#33d17a"></span>MFC</span>
+            <span class="pill"><span class="dot" style="background:#ff5a6f"></span>Saúde Mental</span>
+            <span class="pill"><span class="dot" style="background:#00d1ff"></span>Saúde Coletiva</span>
+          </div>
+        </div>
+
+        <div class="story">
+          <div class="box">
+            <div class="h3">Nossa história (o porquê disso existir)</div>
+            <p>
+              A BTX TECH nasce no Baixo Tocantins com uma missão bem prática: transformar estudo em resultado.
+              A gente acredita que passar em prova não é “sorte”, é <b>método</b>: saber o que cai, como cai e treinar com feedback.
+            </p>
+            <ul>
+              <li><b>Orlando Abreu</b>: dentista, especialização em <b>Cirurgia Buco Maxilofacial</b>; pós-graduação em <b>Saúde Coletiva</b>; pós-graduando em <b>Patologia</b>; graduando em <b>Medicina</b> e <b>Engenharia da Computação</b>.</li>
+              <li><b>Joszael Tarcio</b>: um gigante da comunicação, graduando em <b>Medicina</b>.</li>
+            </ul>
+          </div>
+
+          <div class="box">
+            <div class="h3">Contato (BTX TECH)</div>
+            <p><b>BTX TECH</b> — uma startup do Baixo Tocantins • interior da Amazônia</p>
+            <ul>
+              <li><b>Orlando Abreu</b>: (91) 99987-3835 / (91) 99298-0333</li>
+              <li><b>E-mail</b>: orlandodentista@gmail.com</li>
+              <li><b>Joszael Tarcio</b>: (86) 8171-2536</li>
+            </ul>
+            <div class="sep"></div>
+            <div class="tiny">
+              *Este é um protótipo “site de verdade”: pode ir para GitHub Pages e virar PWA instalável.
+            </div>
+          </div>
+        </div>
+
+        <div class="sep"></div>
+
+        <div class="box">
+          <div class="paneHeader">
+            <div>
+              <div class="h3">Distribuição de matérias (ENAMED) — modelo inicial editável</div>
+              <div class="tiny">Você pode ajustar percentuais depois (menu “Config” na área privada).</div>
+            </div>
+            <div class="chip"><span class="dot c2"></span><b id="sumPct">100%</b> total</div>
+          </div>
+
+          <div class="chartWrap">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+              <canvas id="donut" width="220" height="220" aria-label="Distribuição ENAMED"></canvas>
+              <div class="tiny">Visão rápida do “peso” por área</div>
+            </div>
+
+            <div class="legend" id="legend"></div>
+          </div>
+
+          <div class="hint">
+            <b>Login</b>: digite sua chave de acesso para entrar na área privada (conteúdo + questões).
+            <div class="tiny" style="margin-top:6px">
+              Dica de produto: depois você pode trocar isso por assinatura (Firebase/Supabase).
+            </div>
+          </div>
+
+          <div class="loginRow">
+            <input class="input" id="accessKey" type="password" inputmode="numeric" placeholder="Chave de acesso" autocomplete="current-password" />
+            <button class="btn primary" id="btnLogin">Entrar</button>
+            <button class="btn ghost" id="btnDemo">Entrar como demo</button>
+          </div>
+
+          <div class="tiny" id="loginMsg" style="margin-top:10px"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================== PRIVATE APP ====================== -->
+    <section class="app" id="app">
+      <div class="appTop">
+        <div class="left">
+          <div class="logo" style="width:34px;height:34px;border-radius:14px"></div>
+          <div>
+            <div style="font-weight:900;line-height:1">BTX TECH • Educação Médica</div>
+            <div class="tiny">Área privada • conteúdo + questões (modelo pronto pra você ir adicionando)</div>
+          </div>
+        </div>
+
+        <div class="right">
+          <span class="chip"><span class="dot"></span><span id="activeAreaLabel">—</span></span>
+          <button class="btn" id="btnMobileMenu">Menu</button>
+          <button class="btn ghost" id="btnConfig">Config</button>
+          <button class="btn ghost" id="btnLogout">Sair</button>
+        </div>
+      </div>
+
+      <div class="layout" id="layout">
+        <aside class="sidebar" id="sidebar">
+          <div class="panel">
+            <div class="h3">Áreas</div>
+            <div class="tiny" style="margin-top:6px">Clique numa área para abrir o “motor” (índice + conteúdo + questões).</div>
+            <div class="sep"></div>
+            <div id="areasNav"></div>
+          </div>
+
+          <div style="height:12px"></div>
+
+          <div class="panel">
+            <div class="h3">Como adicionar conteúdo depois</div>
+            <div class="tiny" style="margin-top:6px">
+              Você só vai editar o objeto <span class="kbd">DB</span> no fim do arquivo:
+              <ul>
+                <li><b>content.sections</b> (títulos + texto)</li>
+                <li><b>questions</b> (enunciado + alternativas + correta + comentário)</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="footerBar">
+            <div class="badge">
+              <span class="dot c2"></span>
+              <span>BTX TECH • Baixo Tocantins</span>
+            </div>
+            <div class="tiny">v0.1 • offline-ready</div>
+          </div>
+        </aside>
+
+        <main class="content">
+          <div class="panel">
+            <div class="paneHeader">
+              <div>
+                <div class="h2" id="areaTitle">Bem-vindo</div>
+                <div class="tiny" id="areaSubtitle">Selecione uma área no menu à esquerda.</div>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">
+                <span class="pill"><span class="dot"></span>Índice</span>
+                <span class="pill"><span class="dot c2"></span>Conteúdo</span>
+                <span class="pill"><span class="dot good"></span>Questões</span>
+              </div>
+            </div>
+
+            <div class="twoPane">
+              <!-- CONTENT PANE -->
+              <section class="panel">
+                <div class="paneHeader">
+                  <div>
+                    <div class="h3">Conteúdo</div>
+                    <div class="tiny">Com índice pronto. Você só vai preenchendo seção por seção.</div>
+                  </div>
+                  <div class="chip"><span class="dot c2"></span><span id="contentCount">0</span> seções</div>
+                </div>
+
+                <div class="toc" id="toc">
+                  <div class="tocTitle"><span class="dot"></span>Índice do conteúdo</div>
+                  <ul id="tocList"></ul>
+                </div>
+
+                <div id="contentSections"></div>
+              </section>
+
+              <!-- QUESTIONS PANE -->
+              <section class="panel">
+                <div class="paneHeader">
+                  <div>
+                    <div class="h3">Questões</div>
+                    <div class="tiny">Modelo interativo com resposta comentada por questão.</div>
+                  </div>
+                  <div class="chip"><span class="dot good"></span><span id="qCount">0</span> questões</div>
+                </div>
+
+                <div class="toc" id="qIndex">
+                  <div class="tocTitle"><span class="dot good"></span>Índice das questões</div>
+                  <ul id="qIndexList"></ul>
+                </div>
+
+                <div id="questionsWrap"></div>
+              </section>
+            </div>
+
+            <div class="footerBar">
+              <div>
+                <b>Contato BTX TECH</b><br/>
+                Orlando Abreu: (91) 99987-3835 / (91) 99298-0333 • orlandodentista@gmail.com • Joszael Tarcio: (86) 8171-2536
+              </div>
+              <div class="tiny">
+                “Foco no que cai + como cai + treino com feedback.”
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    /*****************************************************************
+     * LOGIN: chave de acesso (não exibir nem sugerir na tela)
+     *****************************************************************/
+    const _ACCESS_CODE = "81069844"; // <-- fica aqui, invisível na UI
+    const SESSION_KEY = "btx_session_ok";
+
+    const landing = document.getElementById("landing");
+    const app = document.getElementById("app");
+    const loginMsg = document.getElementById("loginMsg");
+
+    function setLoggedIn(isOk){
+      localStorage.setItem(SESSION_KEY, isOk ? "1" : "0");
+      landing.style.display = isOk ? "none" : "block";
+      app.style.display = isOk ? "block" : "none";
+    }
+
+    function tryAutoLogin(){
+      const ok = localStorage.getItem(SESSION_KEY) === "1";
+      setLoggedIn(ok);
+    }
+
+    document.getElementById("btnLogin").addEventListener("click", () => {
+      const key = (document.getElementById("accessKey").value || "").trim();
+      if(key === _ACCESS_CODE){
+        loginMsg.innerHTML = `<span class="pill"><span class="dot good"></span>Chave ok • bem-vindo(a)!</span>`;
+        setLoggedIn(true);
+        initApp();
+      }else{
+        loginMsg.innerHTML = `<span class="pill"><span class="dot bad"></span>Chave inválida</span> <span class="tiny">Verifique e tente de novo.</span>`;
+      }
+    });
+
+    document.getElementById("btnDemo").addEventListener("click", () => {
+      loginMsg.innerHTML = `<span class="pill"><span class="dot"></span>Modo demo</span> <span class="tiny">Você está vendo o modelo pronto.</span>`;
+      setLoggedIn(true);
+      initApp();
+    });
+
+    document.getElementById("btnLogout").addEventListener("click", () => {
+      setLoggedIn(false);
+      localStorage.setItem(SESSION_KEY, "0");
+      location.reload();
+    });
+
+    /*****************************************************************
+     * “Distribuição ENAMED” (modelo inicial editável)
+     * OBS: você pode ajustar percentuais em Config na área privada.
+     *****************************************************************/
+    const ENAMED_DIST = [
+      { key:"clin",  label:"Clínica Médica", pct: 22, color:"#4f8cff" },
+      { key:"cir",   label:"Cirurgia Geral", pct: 14, color:"#00d1ff" },
+      { key:"go",    label:"Gineco/Obstetrícia", pct: 16, color:"#ffd166" },
+      { key:"ped",   label:"Pediatria", pct: 14, color:"#9b8cff" },
+      { key:"mfc",   label:"Med. Família e Comunidade", pct: 12, color:"#33d17a" },
+      { key:"sm",    label:"Saúde Mental", pct: 12, color:"#ff5a6f" },
+      { key:"sc",    label:"Saúde Coletiva", pct: 10, color:"#00d1ff" }
+    ];
+
+    function sumPct(list){ return list.reduce((a,b)=>a + (Number(b.pct)||0), 0); }
+
+    function renderLegend(){
+      const leg = document.getElementById("legend");
+      leg.innerHTML = "";
+      ENAMED_DIST.forEach(it => {
+        const div = document.createElement("div");
+        div.className = "legItem";
+        div.innerHTML = `
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="sw" style="background:${it.color}"></span>
+            <span>${it.label}</span>
+          </div>
+          <span class="kbd">${it.pct}%</span>
+        `;
+        leg.appendChild(div);
+      });
+      document.getElementById("sumPct").textContent = sumPct(ENAMED_DIST) + "%";
+    }
+
+    function drawDonut(){
+      const c = document.getElementById("donut");
+      const ctx = c.getContext("2d");
+      const w = c.width, h = c.height;
+      const cx = w/2, cy = h/2;
+      const r = Math.min(w,h)/2 - 10;
+      const rIn = r * 0.62;
+
+      ctx.clearRect(0,0,w,h);
+
+      // fundo
+      ctx.beginPath();
+      ctx.arc(cx,cy,r,0,Math.PI*2);
+      ctx.fillStyle = "rgba(255,255,255,.08)";
+      ctx.fill();
+
+      let start = -Math.PI/2;
+      const total = sumPct(ENAMED_DIST) || 100;
+
+      ENAMED_DIST.forEach(it => {
+        const ang = (it.pct/total) * Math.PI*2;
+        ctx.beginPath();
+        ctx.moveTo(cx,cy);
+        ctx.arc(cx,cy,r,start,start+ang);
+        ctx.closePath();
+        ctx.fillStyle = it.color;
+        ctx.fill();
+        start += ang;
+      });
+
+      // furo
+      ctx.beginPath();
+      ctx.arc(cx,cy,rIn,0,Math.PI*2);
+      ctx.fillStyle = "rgba(11,18,32,.92)";
+      ctx.fill();
+
+      // texto central
+      ctx.fillStyle = "rgba(234,240,255,.92)";
+      ctx.font = "900 18px " + getComputedStyle(document.body).fontFamily;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText("ENAMED", cx, cy-6);
+
+      ctx.fillStyle = "rgba(234,240,255,.70)";
+      ctx.font = "700 12px " + getComputedStyle(document.body).fontFamily;
+      ctx.fillText("distribuição", cx, cy+14);
+    }
+
+    /*****************************************************************
+     * APP: DB modular (você só vai preenchendo depois)
+     *****************************************************************/
+    const DB = {
+      areas: [
+        {
+          id:"clin",
+          name:"Clínica Médica",
+          subtitle:"Base de prova: raciocínio clínico, conduta e interpretação.",
+          content: {
+            sections: [
+              { id:"clin-1", title:"Como esse módulo funciona", text:"Aqui você vai colar o conteúdo didático (em seções). Use linguagem direta: regra → exceção → pegadinha → como cai." },
+              { id:"clin-2", title:"Checklist de prova (placeholder)", text:"Ex.: dor torácica, dispneia, sepse, HAS/DM, antibiótico, urgência. (Você vai completar depois.)" }
+            ]
+          },
+          questions: [
+            // coloque questões depois (modelo pronto)
+          ]
+        },
+        {
+          id:"cir",
+          name:"Cirurgia Geral",
+          subtitle:"Abdome agudo, trauma, infecção, indicação cirúrgica, perioperatório.",
+          content: { sections: [
+            { id:"cir-1", title:"Template de conteúdo", text:"Crie blocos: Diagnóstico → Conduta → Pegadinhas → Erros comuns." }
+          ]},
+          questions:[]
+        },
+        {
+          id:"go",
+          name:"Ginecologia e Obstetrícia",
+          subtitle:"Pré-natal, síndromes hipertensivas, hemorragias, rastreios, urgências.",
+          content:{ sections:[
+            { id:"go-1", title:"Template de conteúdo", text:"Organize por trimestre e síndromes. Feche com mapa mental e sinais de gravidade." }
+          ]},
+          questions:[]
+        },
+        {
+          id:"ped",
+          name:"Pediatria",
+          subtitle:"Febre, diarreia, asma, crescimento, sinais de gravidade, condutas.",
+          content:{ sections:[
+            { id:"ped-1", title:"Template de conteúdo", text:"Use: idade → hipótese → conduta → quando internar." }
+          ]},
+          questions:[]
+        },
+        {
+          id:"mfc",
+          name:"Medicina de Família e Comunidade",
+          subtitle:"APS raiz: prevenção, abordagem centrada na pessoa, seguimento e estratificação.",
+          content:{ sections:[
+            { id:"mfc-1", title:"Template de conteúdo", text:"Foque em linhas de cuidado, rastreio e manejo na APS." }
+          ]},
+          questions:[]
+        },
+        {
+          id:"sm",
+          name:"Saúde Mental",
+          subtitle:"Depressão, ansiedade, psicose, risco suicida, dependência, conduta.",
+          content:{ sections:[
+            { id:"sm-1", title:"Template de conteúdo", text:"Sempre inclua: risco, red flags, segurança e encaminhamento." }
+          ]},
+          questions:[]
+        },
+        {
+          id:"sc",
+          name:"Saúde Coletiva",
+          subtitle:"SUS, epidemiologia, vigilância, políticas públicas, ética e prevenção.",
+          content:{ sections:[
+            { id:"sc-1", title:"Template de conteúdo", text:"Use: conceito → aplicação → exemplo de prova." }
+          ]},
+          questions:[]
+        }
+      ]
+    };
+
+    /*****************************************************************
+     * Render APP
+     *****************************************************************/
+    const areasNav = document.getElementById("areasNav");
+    const areaTitle = document.getElementById("areaTitle");
+    const areaSubtitle = document.getElementById("areaSubtitle");
+    const tocList = document.getElementById("tocList");
+    const contentSections = document.getElementById("contentSections");
+    const contentCount = document.getElementById("contentCount");
+    const qIndexList = document.getElementById("qIndexList");
+    const questionsWrap = document.getElementById("questionsWrap");
+    const qCount = document.getElementById("qCount");
+    const activeAreaLabel = document.getElementById("activeAreaLabel");
+
+    let activeAreaId = null;
+
+    function renderAreasNav(){
+      areasNav.innerHTML = "";
+      DB.areas.forEach(a => {
+        const item = document.createElement("div");
+        item.className = "navItem" + (a.id === activeAreaId ? " active" : "");
+        item.textContent = a.name;
+        item.addEventListener("click", () => setActiveArea(a.id));
+        areasNav.appendChild(item);
+      });
+    }
+
+    function setActiveArea(id){
+      activeAreaId = id;
+      const a = DB.areas.find(x => x.id === id);
+      if(!a) return;
+
+      // top label
+      activeAreaLabel.textContent = a.name;
+
+      // title
+      areaTitle.textContent = a.name;
+      areaSubtitle.textContent = a.subtitle || "";
+
+      // content
+      const secs = (a.content && a.content.sections) ? a.content.sections : [];
+      contentCount.textContent = secs.length;
+
+      tocList.innerHTML = "";
+      contentSections.innerHTML = "";
+      secs.forEach((s, idx) => {
+        // TOC
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="#${s.id}" style="color:inherit;text-decoration:none">${s.title}</a>`;
+        tocList.appendChild(li);
+
+        // Section
+        const sec = document.createElement("div");
+        sec.className = "sec";
+        sec.id = s.id;
+        sec.innerHTML = `
+          <div class="h3">${idx+1}. ${s.title}</div>
+          <p>${escapeHtml(s.text || "")}</p>
+        `;
+        contentSections.appendChild(sec);
+      });
+
+      // questions
+      const qs = Array.isArray(a.questions) ? a.questions : [];
+      qCount.textContent = qs.length;
+
+      qIndexList.innerHTML = "";
+      questionsWrap.innerHTML = "";
+
+      if(qs.length === 0){
+        const empty = document.createElement("div");
+        empty.className = "sec";
+        empty.innerHTML = `
+          <div class="h3">Questões (vazio por enquanto)</div>
+          <p>Quando você quiser, eu monto 50/100 questões por área no mesmo padrão (média-alta, comentadas).<br/>
+          Você só cola no array <span class="kbd">questions</span> desta área.</p>
+        `;
+        questionsWrap.appendChild(empty);
+      }else{
+        qs.forEach((q, qi) => {
+          // index
+          const li = document.createElement("li");
+          li.innerHTML = `<a href="#q_${id}_${qi}" style="color:inherit;text-decoration:none">Q${qi+1}: ${truncate(q.enunciado || "Questão", 36)}</a>`;
+          qIndexList.appendChild(li);
+
+          // card
+          const card = document.createElement("div");
+          card.className = "qCard";
+          card.id = `q_${id}_${qi}`;
+
+          const tema = q.tema ? `<span class="chip"><span class="dot"></span>${escapeHtml(q.tema)}</span>` : "";
+          card.innerHTML = `
+            <div class="qMeta">
+              <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+                <span class="chip"><span class="dot good"></span>Q${qi+1}</span>
+                ${tema}
+              </div>
+              <span class="chip"><span class="dot c2"></span>Média-alta</span>
+            </div>
+            <div class="qTitle">${escapeHtml(q.enunciado || "")}</div>
+            <div class="opts" id="opts_${id}_${qi}"></div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px;justify-content:space-between">
+              <button class="btn primary" id="btn_${id}_${qi}">Conferir</button>
+              <span class="tiny">Dica: regra → exceção → pegadinha.</span>
+            </div>
+            <div class="feedback" id="fb_${id}_${qi}"></div>
+          `;
+
+          questionsWrap.appendChild(card);
+
+          const optsEl = document.getElementById(`opts_${id}_${qi}`);
+          const name = `q_${id}_${qi}`;
+          (q.alternativas || []).forEach((opt, oi) => {
+            const lab = document.createElement("label");
+            lab.className = "opt";
+            lab.innerHTML = `
+              <input type="radio" name="${name}" value="${oi}">
+              <div>${escapeHtml(String.fromCharCode(65+oi) + ") " + opt)}</div>
+            `;
+            lab.addEventListener("click", () => {
+              lab.querySelector("input").checked = true;
+            });
+            optsEl.appendChild(lab);
+          });
+
+          document.getElementById(`btn_${id}_${qi}`).addEventListener("click", () => checkQuestion(id, qi));
+        });
+      }
+
+      // refresh nav
+      renderAreasNav();
+
+      // close mobile menu if open
+      document.getElementById("layout").classList.remove("mobile");
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+
+    function checkQuestion(areaId, qi){
+      const a = DB.areas.find(x => x.id === areaId);
+      const q = a?.questions?.[qi];
+      if(!q) return;
+
+      const name = `q_${areaId}_${qi}`;
+      const chosenEl = document.querySelector(`input[name="${name}"]:checked`);
+      const fb = document.getElementById(`fb_${areaId}_${qi}`);
+      if(!chosenEl){
+        fb.className = "feedback bad";
+        fb.textContent = "Escolhe uma alternativa antes.";
+        return;
+      }
+      const chosen = Number(chosenEl.value);
+      const correct = Number(q.correta);
+
+      // lock radios
+      document.querySelectorAll(`input[name="${name}"]`).forEach(r => r.disabled = true);
+
+      if(chosen === correct){
+        fb.className = "feedback good";
+        fb.innerHTML = `<b>✅ Correta.</b> ${escapeHtml(q.comentario || "Boa!")} `;
+      }else{
+        fb.className = "feedback bad";
+        fb.innerHTML = `<b>❌ Incorreta.</b> Correta: <b>${String.fromCharCode(65+correct)})</b> ${escapeHtml(q.alternativas?.[correct] || "")}<br/><br/><b>Comentário:</b> ${escapeHtml(q.comentario || "")}`;
+      }
+
+      // disable button
+      const btn = document.getElementById(`btn_${areaId}_${qi}`);
+      btn.disabled = true;
+      btn.textContent = "Respondida";
+      btn.classList.remove("primary");
+    }
+
+    function escapeHtml(s){
+      return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
+    }
+    function truncate(s,n){
+      s = String(s || "");
+      return s.length > n ? s.slice(0,n-1) + "…" : s;
+    }
+
+    /*****************************************************************
+     * Config (simples): ajustar percentuais do gráfico (editável)
+     *****************************************************************/
+    document.getElementById("btnConfig").addEventListener("click", () => {
+      const msg =
+`CONFIG (rápido):
+Você edita aqui no código (objetos ENAMED_DIST e DB).
+- ENAMED_DIST: muda percentuais do gráfico do login
+- DB.areas[*].content.sections: adiciona conteúdo por área
+- DB.areas[*].questions: adiciona questões por área
+
+Quer que eu transforme isso num painel de configuração dentro do site (sem mexer no código)?`;
+      alert(msg);
+    });
+
+    /*****************************************************************
+     * Mobile menu
+     *****************************************************************/
+    document.getElementById("btnMobileMenu").addEventListener("click", () => {
+      const layout = document.getElementById("layout");
+      layout.classList.toggle("mobile");
+      // mostra sidebar no mobile
+      if(window.innerWidth <= 980){
+        document.getElementById("sidebar").style.display = "block";
+      }
+    });
+
+    function initApp(){
+      // render sidebar + default area
+      renderAreasNav();
+      if(!activeAreaId) setActiveArea(DB.areas[0].id);
+    }
+
+    // Boot
+    renderLegend();
+    drawDonut();
+    tryAutoLogin();
+    if(localStorage.getItem(SESSION_KEY) === "1"){
+      initApp();
+    }
+  </script>
+</body>
+</html>
