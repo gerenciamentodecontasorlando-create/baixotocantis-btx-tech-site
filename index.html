@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>BTX TECH • Plataforma de Educação Médica</title>
+  <title>BTX TECH • Educação Médica</title>
+
   <style>
     :root{
       --bg:#f4f8ff;
@@ -14,18 +15,18 @@
       --line:#dbe7ff;
 
       --sky:#22c3ff;        /* azul celeste */
-      --sky2:#2a7fff;       /* azul mais forte */
+      --sky2:#2a7fff;       /* azul */
       --skySoft:#e6f8ff;    /* fundo celeste */
       --good:#16a34a;
       --bad:#dc2626;
-      --warn:#f59e0b;
 
-      --shadow: 0 14px 40px rgba(11,18,32,.10);
+      --shadow: 0 14px 42px rgba(11,18,32,.10);
       --r:18px;
       --r2:14px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,"Liberation Mono","Courier New", monospace;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans","Helvetica Neue";
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
@@ -47,9 +48,7 @@
       box-shadow: var(--shadow);
     }
     .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-    .brand{
-      display:flex;align-items:center;gap:12px;
-    }
+    .brand{display:flex;align-items:center;gap:12px}
     .logo{
       width:44px;height:44px;border-radius: 16px;
       background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.9), transparent 55%),
@@ -62,6 +61,8 @@
     .h3{margin:0;font-size: 13px}
     .muted{color:var(--muted)}
     .tiny{font-size:12px;color:var(--muted)}
+    .sep{height:1px;background: var(--line); margin: 12px 0}
+
     .pill{
       display:inline-flex;align-items:center;gap:8px;
       padding: 7px 10px;
@@ -106,6 +107,12 @@
       color: var(--muted);
       box-shadow:none;
     }
+    .btn.danger{
+      border:1px solid rgba(220,38,38,.35);
+      background: rgba(220,38,38,.10);
+      color:#7f1d1d;
+      box-shadow:none;
+    }
 
     /* Landing */
     header.card{padding: 14px 14px}
@@ -121,8 +128,6 @@
     }
     .box ul{margin:8px 0 0; padding-left:16px; color: var(--muted); font-size:13px}
     .box p{margin:8px 0 0; color: var(--muted); font-size:13px}
-
-    .sep{height:1px;background: var(--line); margin: 12px 0}
 
     .loginRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
     .input{
@@ -145,8 +150,19 @@
       font-size: 13px;
       margin-top:10px;
     }
+    .check{
+      display:flex;align-items:center;gap:10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border:1px solid var(--line);
+      background:#fff;
+      color: var(--muted);
+      font-size: 13px;
+      user-select:none;
+    }
+    .check input{transform: scale(1.1)}
 
-    /* Donut chart block */
+    /* Donut */
     .chartWrap{
       display:grid;
       grid-template-columns: 210px 1fr;
@@ -180,7 +196,7 @@
       display:flex;align-items:center;justify-content:space-between;gap:10px;
       padding: 10px 12px;
       border-bottom:1px solid var(--line);
-      background: rgba(255,255,255,.75);
+      background: rgba(255,255,255,.78);
       backdrop-filter: blur(10px);
     }
     .appTop .left{display:flex;align-items:center;gap:10px}
@@ -198,7 +214,7 @@
 
     .layout{
       display:grid;
-      grid-template-columns: 310px 1fr;
+      grid-template-columns: 330px 1fr;
       height: calc(100vh - 62px);
       overflow:hidden;
     }
@@ -220,7 +236,7 @@
       padding: 12px;
       overflow:auto;
       border-right:1px solid var(--line);
-      background: rgba(255,255,255,.55);
+      background: rgba(255,255,255,.60);
       backdrop-filter: blur(10px);
     }
     .main{
@@ -236,10 +252,7 @@
       padding: 12px;
     }
 
-    .search{
-      display:flex;gap:10px;align-items:center;flex-wrap:wrap;
-      margin-top:10px;
-    }
+    .search{margin-top:10px}
     .search input{
       width:100%;
       border:1px solid var(--line);
@@ -251,7 +264,7 @@
       font-weight:800;
     }
 
-    /* Accordion groups */
+    /* Areas -> Topics */
     .group{margin-top:10px}
     .groupTitle{
       display:flex;align-items:center;justify-content:space-between;gap:10px;
@@ -283,7 +296,7 @@
       color:#053049;
     }
 
-    /* Private content layout */
+    /* Topic page */
     .twoPane{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -321,7 +334,6 @@
     }
     .sec p{margin:8px 0 0; color: var(--muted); font-size: 13.5px}
 
-    /* Question cards */
     .qCard{
       border:1px solid var(--line);
       border-radius: 14px;
@@ -364,10 +376,74 @@
       color: var(--muted);
       font-size: 12.5px;
     }
+
+    /* Modal Admin */
+    .modalOverlay{
+      position:fixed; inset:0;
+      background: rgba(11,18,32,.45);
+      display:none;
+      align-items:center; justify-content:center;
+      padding: 14px;
+      z-index: 999;
+    }
+    .modal{
+      width:min(1040px, 98vw);
+      max-height: 92vh;
+      overflow:auto;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius: var(--r);
+      box-shadow: var(--shadow);
+      padding: 12px;
+    }
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    .tab{
+      border:1px solid var(--line);
+      background:#fff;
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: 12px;
+      font-weight: 950;
+      cursor:pointer;
+    }
+    .tab.active{
+      border-color: rgba(34,195,255,.75);
+      background: var(--skySoft);
+      color:#053049;
+    }
+    .tabPanel{display:none;margin-top:10px}
+    .tabPanel.active{display:block}
+
+    textarea{
+      width:100%;
+      min-height: 260px;
+      border:1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px;
+      outline:none;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--ink);
+      background:#fff;
+      white-space: pre;
+    }
+    .field{
+      border:1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px;
+      background:#fff;
+    }
+    .gridAdmin{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    @media (max-width: 980px){ .gridAdmin{grid-template-columns:1fr} }
   </style>
 </head>
 
 <body>
+
   <!-- ===================== LANDING / LOGIN ===================== -->
   <div class="container" id="landing">
     <header class="card">
@@ -380,9 +456,9 @@
           </div>
         </div>
         <div class="row" style="justify-content:flex-end">
+          <span class="pill"><span class="dot"></span>Educação médica</span>
           <span class="pill"><span class="dot"></span>Layout claro</span>
-          <span class="pill"><span class="dot"></span>Botões celeste</span>
-          <span class="pill"><span class="dot good"></span>Organização por tópicos</span>
+          <span class="pill"><span class="dot good"></span>Motor por tópicos</span>
         </div>
       </div>
     </header>
@@ -390,10 +466,10 @@
     <section class="hero card">
       <div class="grid2">
         <div class="box">
-          <h1 class="h1">Plataforma BTX • Educação Médica com método</h1>
+          <h1 class="h1">Plataforma BTX • Estudos inteligentes para prova</h1>
           <p class="muted" style="margin:10px 0 0">
-            Aqui o estudo vira “sistema”: <b>Área → Tópicos → Seções</b>, com <b>índice automático</b>, e questões com feedback.
-            A ideia é você montar uma biblioteca inteira sem perder organização (Saúde Coletiva agradece!).
+            A BTX TECH nasce no Baixo Tocantins com um objetivo simples: estudo com método.
+            Aqui você organiza tudo por <b>Área → Tópicos → Seções</b>, e treina com questões comentadas.
           </p>
 
           <div class="sep"></div>
@@ -401,11 +477,8 @@
           <div class="box" style="background: var(--skySoft)">
             <div class="h3" style="color:#053049">Nossa história</div>
             <p style="color:#053049">
-              A <b>BTX TECH</b> nasce no Baixo Tocantins com missão prática: transformar estudo em resultado.
-              <br><br>
               <b>Orlando Abreu</b> — dentista com especialização em <b>Cirurgia Buco Maxilofacial</b>; pós em <b>Saúde Coletiva</b>;
-              pós-graduando em <b>Patologia</b>; graduando em <b>Medicina</b> e <b>Engenharia da Computação</b>.
-              <br><br>
+              pós-graduando em <b>Patologia</b>; graduando em <b>Medicina</b> e <b>Engenharia da Computação</b>.<br><br>
               <b>Joszael Tarcio</b> — um gigante da comunicação, graduando em <b>Medicina</b>.
             </p>
           </div>
@@ -427,7 +500,7 @@
           <div class="row" style="justify-content:space-between">
             <div>
               <div class="h2">Distribuição de matérias (ENAMED)</div>
-              <div class="tiny">Modelo inicial editável dentro do código.</div>
+              <div class="tiny">Você edita isso depois em <b>Config</b> (sem mexer no código).</div>
             </div>
             <span class="pill"><span class="dot"></span><b id="sumPct">100%</b></span>
           </div>
@@ -442,13 +515,20 @@
 
           <div class="hint">
             <b>Login</b>: digite a chave de acesso para entrar na área privada.
-            <div class="tiny" style="margin-top:6px">Depois dá pra evoluir pra assinatura (Firebase/Supabase).</div>
           </div>
 
           <div class="loginRow">
-            <input class="input" id="accessKey" type="password" inputmode="numeric" placeholder="Chave de acesso" autocomplete="current-password"/>
+            <input class="input" id="accessKey" type="password" inputmode="numeric" placeholder="Chave de acesso"/>
             <button class="btn" id="btnLogin">Entrar</button>
-            <button class="btn ghost" id="btnDemo">Entrar como demo</button>
+            <button class="btn ghost" id="btnDemo">Demo</button>
+          </div>
+
+          <div class="row" style="margin-top:10px;justify-content:space-between">
+            <label class="check" title="Se marcar, ele abre direto da próxima vez">
+              <input type="checkbox" id="keepSigned"/>
+              Manter conectado neste dispositivo
+            </label>
+            <button class="btn ghost" id="btnResetSession">Resetar sessão</button>
           </div>
 
           <div class="tiny" id="loginMsg" style="margin-top:10px"></div>
@@ -464,23 +544,23 @@
         <div class="logo" style="width:34px;height:34px;border-radius:14px"></div>
         <div>
           <div style="font-weight:950;line-height:1">BTX TECH • Educação Médica</div>
-          <div class="tiny">Área privada • organização por tópicos (escala real)</div>
+          <div class="tiny">Área privada • Área → Tópicos → Conteúdo | Questões</div>
         </div>
       </div>
 
       <div class="right">
         <span class="chip"><span class="dot"></span><span id="activePath">—</span></span>
         <button class="btn ghost" id="btnMobileMenu">Menu</button>
-        <button class="btn ghost" id="btnConfig">Config</button>
-        <button class="btn ghost" id="btnLogout">Sair</button>
+        <button class="btn" id="btnAdmin">Config</button>
+        <button class="btn danger" id="btnLogout">Sair</button>
       </div>
     </div>
 
     <div class="layout" id="layout">
-      <aside class="sidebar card" id="sidebar" style="box-shadow:none;background:rgba(255,255,255,.6)">
+      <aside class="sidebar" id="sidebar">
         <div class="panel" style="box-shadow:none">
           <div class="h2">Navegação</div>
-          <div class="tiny" style="margin-top:6px">Área → Tópicos (com busca). Clique pra abrir.</div>
+          <div class="tiny" style="margin-top:6px">Busque e selecione um tópico.</div>
 
           <div class="search">
             <input id="topicSearch" placeholder="Buscar tópico… (ex.: SUS, vigilância, HAS, ECG)"/>
@@ -488,13 +568,6 @@
 
           <div class="sep"></div>
           <div id="nav"></div>
-
-          <div class="sep"></div>
-          <div class="tiny">
-            <b>Como você adiciona depois:</b><br>
-            • <span class="kbd">DB.areas[].topics[]</span> (cria tópicos)<br>
-            • Cada tópico tem <span class="kbd">content.sections</span> e <span class="kbd">questions</span>
-          </div>
         </div>
       </aside>
 
@@ -503,7 +576,7 @@
           <div class="row" style="justify-content:space-between">
             <div>
               <div class="h2" id="topicTitle">Escolha um tópico no menu</div>
-              <div class="tiny" id="topicSubtitle">Você vai ver: índice do conteúdo + seções, e índice das questões + treino.</div>
+              <div class="tiny" id="topicSubtitle">Conteúdo organizado e questões comentadas.</div>
             </div>
             <div class="row" style="justify-content:flex-end">
               <span class="pill"><span class="dot"></span>Índice</span>
@@ -518,7 +591,7 @@
               <div class="paneHeader">
                 <div>
                   <div class="h2">Conteúdo</div>
-                  <div class="tiny">Estruturado em seções + índice automático.</div>
+                  <div class="tiny">Seções + índice automático.</div>
                 </div>
                 <span class="chip"><span class="dot"></span><span id="secCount">0</span> seções</span>
               </div>
@@ -555,19 +628,108 @@
               <b>Contato BTX TECH</b><br/>
               Orlando Abreu: (91) 99987-3835 / (91) 99298-0333 • orlandodentista@gmail.com • Joszael Tarcio: (86) 8171-2536
             </div>
-            <div class="tiny">v0.2 • Layout claro + tópicos escaláveis</div>
+            <div class="tiny">v0.3 • Layout claro • motor editável</div>
           </div>
         </div>
       </main>
     </div>
   </section>
 
+  <!-- ===================== ADMIN MODAL ===================== -->
+  <div class="modalOverlay" id="modalOverlay" aria-hidden="true">
+    <div class="modal">
+      <div class="row" style="justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="h2">Config / Admin</div>
+          <div class="tiny">Aqui você edita o motor sem bagunçar a tela principal.</div>
+        </div>
+        <div class="row">
+          <button class="btn ghost" id="btnCloseAdmin">Fechar</button>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" data-tab="t1">Distribuição ENAMED</button>
+        <button class="tab" data-tab="t2">Banco de Conteúdo</button>
+        <button class="tab" data-tab="t3">Importar / Exportar</button>
+      </div>
+
+      <div class="tabPanel active" id="t1">
+        <div class="gridAdmin">
+          <div class="field">
+            <div class="h3">Como editar</div>
+            <p class="tiny">
+              Você pode alterar os percentuais no JSON ao lado e clicar em <b>Aplicar</b>.
+              Tem que somar 100%.
+            </p>
+            <div class="row" style="justify-content:flex-end">
+              <button class="btn" id="btnApplyDist">Aplicar</button>
+            </div>
+          </div>
+          <div class="field">
+            <div class="h3">ENAMED_DIST (JSON)</div>
+            <textarea id="distJson"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabPanel" id="t2">
+        <div class="field">
+          <div class="h3">Banco DB (Áreas → Tópicos → Seções/Questões)</div>
+          <p class="tiny">
+            Edite o JSON do banco completo aqui e clique em <b>Aplicar</b>.
+            Dica: você pode ir adicionando tópicos em Saúde Coletiva sem bagunça.
+          </p>
+          <div class="row" style="justify-content:flex-end">
+            <button class="btn" id="btnApplyDB">Aplicar</button>
+          </div>
+          <textarea id="dbJson"></textarea>
+        </div>
+      </div>
+
+      <div class="tabPanel" id="t3">
+        <div class="gridAdmin">
+          <div class="field">
+            <div class="h3">Exportar</div>
+            <p class="tiny">Gera um backup do seu banco (DB) + distribuição (ENAMED_DIST).</p>
+            <div class="row">
+              <button class="btn" id="btnExport">Gerar backup</button>
+              <button class="btn ghost" id="btnCopyExport">Copiar</button>
+            </div>
+            <textarea id="backupOut" placeholder="Clique em 'Gerar backup'..."></textarea>
+          </div>
+
+          <div class="field">
+            <div class="h3">Importar</div>
+            <p class="tiny">Cole o backup e clique em <b>Importar</b>.</p>
+            <div class="row">
+              <button class="btn" id="btnImport">Importar</button>
+              <button class="btn danger" id="btnFactoryReset">Reset fábrica</button>
+            </div>
+            <textarea id="backupIn" placeholder="Cole aqui seu backup..."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+      <div class="tiny">
+        Obs.: o sistema salva seu banco no navegador (<span class="kbd">localStorage</span>). Para publicar no GitHub Pages, você sobe esse HTML e pronto.
+      </div>
+    </div>
+  </div>
+
   <script>
-    /***********************
-     * LOGIN (código escondido)
-     ***********************/
-    const _ACCESS_CODE = "81069844"; // não aparece na tela
+    /*****************************************************************
+     * IMPORTANTE:
+     * - A chave de acesso existe no código, mas não aparece na tela.
+     * - O banco DB e a distribuição ENAMED_DIST podem ser editados no Admin.
+     *****************************************************************/
+
+    const _ACCESS_CODE = "81069844"; // escondido: não exibir na UI
     const SESSION_KEY = "btx_session_ok";
+    const KEEP_KEY = "btx_keep_signed";
+    const STORE_DB = "btx_db";
+    const STORE_DIST = "btx_dist";
 
     const landing = document.getElementById("landing");
     const app = document.getElementById("app");
@@ -578,37 +740,17 @@
       landing.style.display = ok ? "none" : "block";
       app.style.display = ok ? "block" : "none";
     }
-    function tryAutoLogin(){
-      const ok = localStorage.getItem(SESSION_KEY) === "1";
-      setLoggedIn(ok);
-      if(ok) initApp();
+
+    function resetSession(){
+      localStorage.removeItem(SESSION_KEY);
+      setLoggedIn(false);
+      location.reload();
     }
 
-    document.getElementById("btnLogin").addEventListener("click", () => {
-      const key = (document.getElementById("accessKey").value || "").trim();
-      if(key === _ACCESS_CODE){
-        loginMsg.innerHTML = `<span class="pill"><span class="dot good"></span>Chave ok • bem-vindo(a)!</span>`;
-        setLoggedIn(true);
-        initApp();
-      }else{
-        loginMsg.innerHTML = `<span class="pill"><span class="dot bad"></span>Chave inválida</span> <span class="tiny">Verifique e tente de novo.</span>`;
-      }
-    });
-    document.getElementById("btnDemo").addEventListener("click", () => {
-      loginMsg.innerHTML = `<span class="pill"><span class="dot"></span>Modo demo</span> <span class="tiny">Você está vendo o modelo pronto.</span>`;
-      setLoggedIn(true);
-      initApp();
-    });
-    document.getElementById("btnLogout").addEventListener("click", () => {
-      setLoggedIn(false);
-      localStorage.setItem(SESSION_KEY, "0");
-      location.reload();
-    });
+    document.getElementById("btnResetSession").addEventListener("click", resetSession);
 
-    /***********************
-     * ENAMED donut (modelo editável)
-     ***********************/
-    const ENAMED_DIST = [
+    // ===== Distribution (default) =====
+    let ENAMED_DIST_DEFAULT = [
       { label:"Clínica Médica", pct: 22, color:"#2a7fff" },
       { label:"Cirurgia Geral", pct: 14, color:"#22c3ff" },
       { label:"Gineco/Obstetrícia", pct: 16, color:"#f59e0b" },
@@ -617,27 +759,101 @@
       { label:"Saúde Mental", pct: 12, color:"#dc2626" },
       { label:"Saúde Coletiva", pct: 10, color:"#0ea5e9" }
     ];
-    const sumPct = arr => arr.reduce((a,b)=>a + (Number(b.pct)||0), 0);
 
-    function renderLegend(){
+    // ===== DB (default) =====
+    let DB_DEFAULT = {
+      areas: [
+        {
+          id:"sc",
+          name:"Saúde Coletiva",
+          topics: [
+            {
+              id:"sc_sus",
+              title:"SUS: princípios, diretrizes e organização",
+              subtitle:"Universalidade, integralidade, equidade; regionalização; redes.",
+              content: { sections: [
+                { id:"sc_sus_1", title:"Princípios doutrinários", text:"(placeholder) Universalidade, integralidade e equidade — como cai e pegadinhas." },
+                { id:"sc_sus_2", title:"Diretrizes organizativas", text:"(placeholder) Descentralização, regionalização, hierarquização, participação social." }
+              ]},
+              questions:[]
+            },
+            {
+              id:"sc_epi",
+              title:"Epidemiologia: medidas e interpretação",
+              subtitle:"Incidência, prevalência, RR, OR, sensibilidade/especificidade.",
+              content: { sections: [
+                { id:"sc_epi_1", title:"Medidas básicas", text:"(placeholder) Diferença entre incidência e prevalência. Quando usar." }
+              ]},
+              questions:[]
+            }
+          ]
+        },
+        {
+          id:"clin",
+          name:"Clínica Médica",
+          topics: [
+            { id:"clin_has", title:"Hipertensão arterial", subtitle:"Diagnóstico, metas, tratamento.", content:{sections:[
+              { id:"clin_has_1", title:"Diagnóstico e confirmação", text:"(placeholder) MAPA/MRPA, técnica de aferição e erros clássicos." }
+            ]}, questions:[] },
+            { id:"clin_ecg", title:"ECG: o que mais cai", subtitle:"Leitura sistemática, IAM, bloqueios.", content:{sections:[
+              { id:"clin_ecg_1", title:"Roteiro de leitura", text:"(placeholder) FC, ritmo, eixo, intervalos, QRS, ST-T." }
+            ]}, questions:[] }
+          ]
+        }
+      ]
+    };
+
+    function sumPct(arr){ return arr.reduce((a,b)=>a + (Number(b.pct)||0), 0); }
+
+    function loadState(){
+      // keep signed
+      const keep = localStorage.getItem(KEEP_KEY) === "1";
+      document.getElementById("keepSigned").checked = keep;
+
+      // dist
+      let dist = ENAMED_DIST_DEFAULT;
+      try{
+        const s = localStorage.getItem(STORE_DIST);
+        if(s) dist = JSON.parse(s);
+      }catch(e){}
+
+      // db
+      let db = DB_DEFAULT;
+      try{
+        const s = localStorage.getItem(STORE_DB);
+        if(s) db = JSON.parse(s);
+      }catch(e){}
+
+      return { dist, db };
+    }
+
+    function saveDist(dist){
+      localStorage.setItem(STORE_DIST, JSON.stringify(dist));
+    }
+    function saveDB(db){
+      localStorage.setItem(STORE_DB, JSON.stringify(db));
+    }
+
+    // ===== Chart =====
+    function renderLegend(dist){
       const leg = document.getElementById("legend");
       leg.innerHTML = "";
-      ENAMED_DIST.forEach(it => {
+      dist.forEach(it => {
         const div = document.createElement("div");
         div.className = "legItem";
         div.innerHTML = `
           <div style="display:flex;align-items:center;gap:8px">
             <span class="sw" style="background:${it.color}"></span>
-            <span>${it.label}</span>
+            <span>${escapeHtml(it.label)}</span>
           </div>
-          <span class="kbd">${it.pct}%</span>
+          <span class="kbd">${Number(it.pct)||0}%</span>
         `;
         leg.appendChild(div);
       });
-      document.getElementById("sumPct").textContent = sumPct(ENAMED_DIST) + "%";
+      document.getElementById("sumPct").textContent = sumPct(dist) + "%";
     }
 
-    function drawDonut(){
+    function drawDonut(dist){
       const c = document.getElementById("donut");
       const ctx = c.getContext("2d");
       const w = c.width, h = c.height;
@@ -653,14 +869,14 @@
       ctx.fill();
 
       let start = -Math.PI/2;
-      const total = sumPct(ENAMED_DIST) || 100;
-      ENAMED_DIST.forEach(it => {
-        const ang = (it.pct/total) * Math.PI*2;
+      const total = sumPct(dist) || 100;
+      dist.forEach(it => {
+        const ang = ((Number(it.pct)||0)/total) * Math.PI*2;
         ctx.beginPath();
         ctx.moveTo(cx,cy);
         ctx.arc(cx,cy,r,start,start+ang);
         ctx.closePath();
-        ctx.fillStyle = it.color;
+        ctx.fillStyle = it.color || "#2a7fff";
         ctx.fill();
         start += ang;
       });
@@ -671,7 +887,7 @@
       ctx.fillStyle = "#ffffff";
       ctx.fill();
 
-      // center text
+      // center
       ctx.textAlign="center";
       ctx.textBaseline="middle";
       ctx.fillStyle="#053049";
@@ -682,126 +898,52 @@
       ctx.fillText("distribuição", cx, cy+14);
     }
 
-    /***********************
-     * DB (AGORA: Área -> Tópicos -> Seções)
-     * Você só preenche depois
-     ***********************/
-    const DB = {
-      areas: [
-        {
-          id:"sc",
-          name:"Saúde Coletiva",
-          topics: [
-            {
-              id:"sc_sus",
-              title:"SUS: princípios, diretrizes e organização",
-              subtitle:"O básico que cai sempre (universalidade, integralidade, equidade; regionalização; RAS).",
-              content: {
-                sections: [
-                  { id:"sc_sus_1", title:"Princípios doutrinários", text:"(Placeholder) Universalidade, integralidade, equidade — como a banca cobra e onde confunde." },
-                  { id:"sc_sus_2", title:"Diretrizes organizativas", text:"(Placeholder) Descentralização, regionalização, hierarquização, participação social." }
-                ]
-              },
-              questions: [
-                // Cole aqui questões depois (modelo pronto)
-              ]
-            },
-            {
-              id:"sc_epi",
-              title:"Epidemiologia: medidas e interpretação",
-              subtitle:"Incidência, prevalência, RR, OR, sensibilidade/especificidade (pegadinha clássica).",
-              content: { sections: [
-                { id:"sc_epi_1", title:"Medidas de frequência", text:"(Placeholder) Incidência x prevalência — quando usar." }
-              ]},
-              questions:[]
-            },
-            {
-              id:"sc_vig",
-              title:"Vigilância em saúde e notificação",
-              subtitle:"O que notifica, por que notifica e como isso aparece em prova.",
-              content: { sections: [
-                { id:"sc_vig_1", title:"Notificação compulsória", text:"(Placeholder) Conceito, dever e pegadinhas com sigilo." }
-              ]},
-              questions:[]
-            }
-          ]
-        },
-        {
-          id:"clin",
-          name:"Clínica Médica",
-          topics: [
-            { id:"clin_has", title:"Hipertensão arterial", subtitle:"O que mais cai: diagnóstico, alvo, tratamento e escolhas.", content:{sections:[
-              { id:"clin_has_1", title:"Classificação e diagnóstico", text:"(Placeholder) Como confirmar HAS e erros comuns." }
-            ]}, questions:[] },
-            { id:"clin_ecg", title:"ECG: o que mais cai", subtitle:"Eixo, IAM, bloqueios, armadilhas.", content:{sections:[
-              { id:"clin_ecg_1", title:"Leitura sistemática", text:"(Placeholder) Passo a passo que banca ama." }
-            ]}, questions:[] }
-          ]
-        },
-        {
-          id:"go",
-          name:"Gineco/Obstetrícia",
-          topics: [
-            { id:"go_pn", title:"Pré-natal", subtitle:"Rotina, exames, alto risco, condutas.", content:{sections:[
-              { id:"go_pn_1", title:"Calendário do pré-natal", text:"(Placeholder) Consultas, exames e vacinas." }
-            ]}, questions:[] }
-          ]
-        },
-        {
-          id:"ped",
-          name:"Pediatria",
-          topics: [
-            { id:"ped_febre", title:"Febre na criança", subtitle:"Estratificação de risco e conduta.", content:{sections:[
-              { id:"ped_febre_1", title:"Sinais de gravidade", text:"(Placeholder) Red flags e quando internar." }
-            ]}, questions:[] }
-          ]
-        },
-        {
-          id:"sm",
-          name:"Saúde Mental",
-          topics: [
-            { id:"sm_dep", title:"Depressão: diagnóstico e manejo", subtitle:"O que cai: critérios, risco, tratamento e seguimento.", content:{sections:[
-              { id:"sm_dep_1", title:"Triagem e risco", text:"(Placeholder) ideação suicida e conduta." }
-            ]}, questions:[] }
-          ]
-        },
-        {
-          id:"cir",
-          name:"Cirurgia Geral",
-          topics: [
-            { id:"cir_abd", title:"Abdome agudo", subtitle:"Diagnóstico diferencial + indicação cirúrgica.", content:{sections:[
-              { id:"cir_abd_1", title:"Abordagem inicial", text:"(Placeholder) estabilidade, exames e conduta." }
-            ]}, questions:[] }
-          ]
-        },
-        {
-          id:"mfc",
-          name:"MFC",
-          topics: [
-            { id:"mfc_rast", title:"Rastreios na APS", subtitle:"O que rastrear, quando e como cai.", content:{sections:[
-              { id:"mfc_rast_1", title:"Princípios do rastreio", text:"(Placeholder) sensibilidade/especificidade e vieses." }
-            ]}, questions:[] }
-          ]
-        }
-      ]
-    };
+    // ===== Login =====
+    document.getElementById("btnLogin").addEventListener("click", () => {
+      const key = (document.getElementById("accessKey").value || "").trim();
+      const keep = document.getElementById("keepSigned").checked;
 
-    /***********************
-     * APP render (Área -> Tópicos)
-     ***********************/
+      localStorage.setItem(KEEP_KEY, keep ? "1" : "0");
+
+      if(key === _ACCESS_CODE){
+        loginMsg.innerHTML = `<span class="pill"><span class="dot good"></span>Chave ok • bem-vindo(a)!</span>`;
+        setLoggedIn(true);
+        initApp();
+      }else{
+        loginMsg.innerHTML = `<span class="pill"><span class="dot bad"></span>Chave inválida</span> <span class="tiny">Verifique e tente de novo.</span>`;
+      }
+    });
+
+    document.getElementById("btnDemo").addEventListener("click", () => {
+      const keep = document.getElementById("keepSigned").checked;
+      localStorage.setItem(KEEP_KEY, keep ? "1" : "0");
+      loginMsg.innerHTML = `<span class="pill"><span class="dot"></span>Modo demo</span> <span class="tiny">Você pode editar pelo Config.</span>`;
+      setLoggedIn(true);
+      initApp();
+    });
+
+    document.getElementById("btnLogout").addEventListener("click", () => {
+      localStorage.removeItem(SESSION_KEY);
+      setLoggedIn(false);
+      location.reload();
+    });
+
+    // ===== App (nav + render) =====
     const nav = document.getElementById("nav");
     const topicSearch = document.getElementById("topicSearch");
     const activePath = document.getElementById("activePath");
-
     const topicTitle = document.getElementById("topicTitle");
     const topicSubtitle = document.getElementById("topicSubtitle");
     const tocList = document.getElementById("tocList");
     const contentWrap = document.getElementById("contentWrap");
     const secCount = document.getElementById("secCount");
-
     const qCount = document.getElementById("qCount");
     const qIndex = document.getElementById("qIndex");
     const qWrap = document.getElementById("qWrap");
+
+    let STATE = loadState();
+    let ENAMED_DIST = STATE.dist;
+    let DB = STATE.db;
 
     let active = { areaId:null, topicId:null };
 
@@ -819,11 +961,11 @@
       nav.innerHTML = "";
       const query = (topicSearch.value || "").trim().toLowerCase();
 
-      DB.areas.forEach(area => {
-        // filter topics
-        const topicsFiltered = (area.topics || []).filter(t => {
+      (DB.areas || []).forEach(area => {
+        const topics = Array.isArray(area.topics) ? area.topics : [];
+        const filtered = topics.filter(t => {
           if(!query) return true;
-          return (t.title || "").toLowerCase().includes(query) || (t.subtitle || "").toLowerCase().includes(query);
+          return (t.title||"").toLowerCase().includes(query) || (t.subtitle||"").toLowerCase().includes(query);
         });
 
         const group = document.createElement("div");
@@ -831,29 +973,21 @@
 
         const header = document.createElement("div");
         header.className = "groupTitle";
-        header.innerHTML = `
-          <span>${escapeHtml(area.name)}</span>
-          <span class="kbd">${topicsFiltered.length}</span>
-        `;
+        header.innerHTML = `<span>${escapeHtml(area.name || "Área")}</span><span class="kbd">${filtered.length}</span>`;
         group.appendChild(header);
 
         const body = document.createElement("div");
         body.className = "groupBody open";
 
-        topicsFiltered.forEach(t => {
+        filtered.forEach(t => {
           const btn = document.createElement("div");
           btn.className = "topicBtn" + ((active.areaId===area.id && active.topicId===t.id) ? " active" : "");
-          btn.innerHTML = `
-            <div style="font-weight:950">${escapeHtml(t.title)}</div>
-            <div class="tiny">${escapeHtml(t.subtitle || "")}</div>
-          `;
+          btn.innerHTML = `<div style="font-weight:950">${escapeHtml(t.title||"Tópico")}</div><div class="tiny">${escapeHtml(t.subtitle||"")}</div>`;
           btn.addEventListener("click", ()=> setActiveTopic(area.id, t.id));
           body.appendChild(btn);
         });
 
-        header.addEventListener("click", ()=>{
-          body.classList.toggle("open");
-        });
+        header.addEventListener("click", ()=> body.classList.toggle("open"));
 
         group.appendChild(body);
         nav.appendChild(group);
@@ -864,16 +998,14 @@
       active.areaId = areaId;
       active.topicId = topicId;
 
-      const area = DB.areas.find(a => a.id === areaId);
-      const topic = area?.topics?.find(t => t.id === topicId);
+      const area = (DB.areas||[]).find(a => a.id === areaId);
+      const topic = (area?.topics||[]).find(t => t.id === topicId);
       if(!topic) return;
 
       activePath.textContent = `${area.name} › ${topic.title}`;
-
       topicTitle.textContent = topic.title;
       topicSubtitle.textContent = topic.subtitle || "";
 
-      // content
       const sections = topic.content?.sections || [];
       secCount.textContent = sections.length;
       tocList.innerHTML = "";
@@ -881,20 +1013,16 @@
 
       sections.forEach((s, i) => {
         const li = document.createElement("li");
-        li.innerHTML = `<a href="#${s.id}" style="text-decoration:none">${escapeHtml(s.title)}</a>`;
+        li.innerHTML = `<a href="#${escapeHtml(s.id)}" style="text-decoration:none">${escapeHtml(s.title)}</a>`;
         tocList.appendChild(li);
 
         const sec = document.createElement("div");
         sec.className = "sec";
         sec.id = s.id;
-        sec.innerHTML = `
-          <div class="h2">${i+1}. ${escapeHtml(s.title)}</div>
-          <p>${escapeHtml(s.text || "")}</p>
-        `;
+        sec.innerHTML = `<div class="h2">${i+1}. ${escapeHtml(s.title)}</div><p>${escapeHtml(s.text||"")}</p>`;
         contentWrap.appendChild(sec);
       });
 
-      // questions
       const qs = topic.questions || [];
       qCount.textContent = qs.length;
       qIndex.innerHTML = "";
@@ -903,13 +1031,7 @@
       if(qs.length === 0){
         const empty = document.createElement("div");
         empty.className = "sec";
-        empty.innerHTML = `
-          <div class="h2">Questões (vazio por enquanto)</div>
-          <p>
-            Você só vai adicionar no array <span class="kbd">questions</span> deste tópico.
-            Se quiser, eu gero 50 questões média-alta por tópico no mesmo padrão.
-          </p>
-        `;
+        empty.innerHTML = `<div class="h2">Questões (vazio)</div><p>Adicione questões no <b>Config</b> (aba Banco de Conteúdo) ou cole via Importar/Exportar.</p>`;
         qWrap.appendChild(empty);
       }else{
         qs.forEach((q, qi) => {
@@ -925,7 +1047,7 @@
               <span class="chip"><span class="dot good"></span>Q${qi+1}</span>
               <span class="chip"><span class="dot"></span>Média-alta</span>
             </div>
-            <div class="qTitle">${escapeHtml(q.enunciado)}</div>
+            <div class="qTitle">${escapeHtml(q.enunciado||"")}</div>
             <div class="opts" id="opts_${topicId}_${qi}"></div>
             <div class="row" style="justify-content:space-between;margin-top:10px">
               <button class="btn" id="btn_${topicId}_${qi}">Conferir</button>
@@ -940,10 +1062,7 @@
           (q.alternativas || []).forEach((opt, oi) => {
             const lab = document.createElement("label");
             lab.className = "opt";
-            lab.innerHTML = `
-              <input type="radio" name="${name}" value="${oi}">
-              <div>${escapeHtml(String.fromCharCode(65+oi) + ") " + opt)}</div>
-            `;
+            lab.innerHTML = `<input type="radio" name="${name}" value="${oi}"><div>${escapeHtml(String.fromCharCode(65+oi) + ") " + opt)}</div>`;
             lab.addEventListener("click", ()=> lab.querySelector("input").checked = true);
             optsEl.appendChild(lab);
           });
@@ -955,7 +1074,6 @@
       }
 
       buildNav();
-      // fecha menu mobile
       document.getElementById("layout").classList.remove("mobile");
       window.scrollTo({top:0, behavior:"smooth"});
     }
@@ -990,41 +1108,149 @@
       btn.textContent = "Respondida";
     }
 
-    /***********************
-     * Mobile menu + config
-     ***********************/
+    // mobile menu
     document.getElementById("btnMobileMenu").addEventListener("click", ()=>{
       document.getElementById("layout").classList.toggle("mobile");
       document.getElementById("sidebar").style.display = "block";
     });
 
-    document.getElementById("btnConfig").addEventListener("click", ()=>{
-      alert(
-`CONFIG (rápido):
-Agora está escalável:
-- DB.areas[].topics[] = seus tópicos (Saúde Coletiva pode ter 50 tópicos sem bagunça)
-- topic.content.sections[] = seções do conteúdo (índice automático)
-- topic.questions[] = questões do tópico
-
-Quer que eu crie um painel dentro do site pra você adicionar tópicos/questões sem mexer no código?`
-      );
-    });
-
     function initApp(){
       buildNav();
-      // abre um tópico padrão (primeiro encontrado)
-      const firstArea = DB.areas[0];
+      const firstArea = DB.areas?.[0];
       const firstTopic = firstArea?.topics?.[0];
       if(firstArea && firstTopic){
         setActiveTopic(firstArea.id, firstTopic.id);
       }
     }
 
-    // Boot
-    renderLegend();
-    drawDonut();
-    tryAutoLogin();
+    // ===== Admin modal logic =====
+    const modalOverlay = document.getElementById("modalOverlay");
+    const distJson = document.getElementById("distJson");
+    const dbJson = document.getElementById("dbJson");
+
+    function openAdmin(){
+      distJson.value = JSON.stringify(ENAMED_DIST, null, 2);
+      dbJson.value = JSON.stringify(DB, null, 2);
+      modalOverlay.style.display = "flex";
+      modalOverlay.setAttribute("aria-hidden","false");
+    }
+    function closeAdmin(){
+      modalOverlay.style.display = "none";
+      modalOverlay.setAttribute("aria-hidden","true");
+    }
+
+    document.getElementById("btnAdmin").addEventListener("click", openAdmin);
+    document.getElementById("btnCloseAdmin").addEventListener("click", closeAdmin);
+    modalOverlay.addEventListener("click", (e)=>{ if(e.target === modalOverlay) closeAdmin(); });
+
+    // tabs
+    document.querySelectorAll(".tab").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
+        document.querySelectorAll(".tabPanel").forEach(p=>p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+      });
+    });
+
+    // apply dist
+    document.getElementById("btnApplyDist").addEventListener("click", ()=>{
+      try{
+        const next = JSON.parse(distJson.value);
+        if(!Array.isArray(next)) throw new Error("Formato inválido (precisa ser lista).");
+        const s = sumPct(next);
+        if(s !== 100) throw new Error("A soma dos percentuais deve ser 100. Soma atual: " + s);
+        ENAMED_DIST = next;
+        saveDist(ENAMED_DIST);
+        renderLegend(ENAMED_DIST);
+        drawDonut(ENAMED_DIST);
+        alert("Distribuição aplicada!");
+      }catch(err){
+        alert("Erro ao aplicar distribuição: " + err.message);
+      }
+    });
+
+    // apply db
+    document.getElementById("btnApplyDB").addEventListener("click", ()=>{
+      try{
+        const next = JSON.parse(dbJson.value);
+        if(!next || !Array.isArray(next.areas)) throw new Error("DB inválido: falta 'areas' (lista).");
+        DB = next;
+        saveDB(DB);
+        buildNav();
+        alert("Banco aplicado! Agora selecione um tópico no menu.");
+      }catch(err){
+        alert("Erro ao aplicar DB: " + err.message);
+      }
+    });
+
+    // export/import
+    const backupOut = document.getElementById("backupOut");
+    const backupIn = document.getElementById("backupIn");
+
+    document.getElementById("btnExport").addEventListener("click", ()=>{
+      const pack = { dist: ENAMED_DIST, db: DB };
+      backupOut.value = JSON.stringify(pack, null, 2);
+    });
+
+    document.getElementById("btnCopyExport").addEventListener("click", async ()=>{
+      try{
+        await navigator.clipboard.writeText(backupOut.value || "");
+        alert("Copiado!");
+      }catch(e){
+        alert("Não consegui copiar automaticamente. Selecione e copie manualmente.");
+      }
+    });
+
+    document.getElementById("btnImport").addEventListener("click", ()=>{
+      try{
+        const pack = JSON.parse(backupIn.value);
+        if(!pack || !pack.dist || !pack.db) throw new Error("Backup inválido (precisa ter 'dist' e 'db').");
+        const s = sumPct(pack.dist);
+        if(s !== 100) throw new Error("A distribuição importada não soma 100. Soma: " + s);
+
+        ENAMED_DIST = pack.dist;
+        DB = pack.db;
+
+        saveDist(ENAMED_DIST);
+        saveDB(DB);
+
+        renderLegend(ENAMED_DIST);
+        drawDonut(ENAMED_DIST);
+        buildNav();
+
+        alert("Importado com sucesso!");
+      }catch(err){
+        alert("Erro ao importar: " + err.message);
+      }
+    });
+
+    document.getElementById("btnFactoryReset").addEventListener("click", ()=>{
+      if(!confirm("Resetar para o padrão de fábrica? (vai apagar alterações no navegador)")) return;
+      localStorage.removeItem(STORE_DB);
+      localStorage.removeItem(STORE_DIST);
+      location.reload();
+    });
+
+    // ===== Boot =====
+    function tryAutoLogin(){
+      const keep = localStorage.getItem(KEEP_KEY) === "1";
+      const ok = localStorage.getItem(SESSION_KEY) === "1";
+      if(keep && ok){
+        setLoggedIn(true);
+        initApp();
+      }else{
+        setLoggedIn(false);
+      }
+    }
+
+    // initial render
+    renderLegend(ENAMED_DIST);
+    drawDonut(ENAMED_DIST);
     topicSearch.addEventListener("input", buildNav);
+
+    // login session
+    tryAutoLogin();
   </script>
 </body>
 </html>
